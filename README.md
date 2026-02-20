@@ -1,3 +1,13 @@
+### Application ENV Variables
+
+The following environment variables are required to run the application:
+
+- `SHOPIFY_API_KEY` - The API key for your Shopify app.
+- `SHOPIFY_API_SECRET` - The API secret for your Shopify app.
+- `SCOPES` - The scopes for your Shopify app.
+- `SHOPIFY_API_VERSION` - The API version for your Shopify app. 
+
+
 # Shopify App Template - React Router
 
 This is a template for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using [React Router](https://reactrouter.com/). It was forked from the [Shopify Remix app template](https://github.com/Shopify/shopify-app-template-remix) and converted to React Router.
