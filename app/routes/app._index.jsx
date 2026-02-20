@@ -1,9 +1,8 @@
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
-import ThemeBuilderProvider from "../providers/theme-builder.provider.jsx";
-import ThemePreview from "../components/theme/theme.preview.jsx";
-import ThemeControls from "../components/theme/theme.controls.jsx";
+import ThemePreview from "../components/theme/theme.preview";
+import ThemeControls from "../components/theme/theme.controls";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
@@ -19,7 +18,6 @@ export default function Index() {
   };
 
   return (
-    <ThemeBuilderProvider>
       <s-page heading="Theme builder">
         <s-section heading="Live preview">
           <ThemePreview />
@@ -29,7 +27,6 @@ export default function Index() {
           <ThemeControls onSave={handleSave} />
         </s-section>
       </s-page>
-    </ThemeBuilderProvider>
   );
 }
 

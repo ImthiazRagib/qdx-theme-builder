@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ThemeBuilderContext from "../context/theme.context.jsx";
+import ThemeBuilderContext from "../context/theme.context";
 
 export default function ThemeBuilderProvider(props) {
   const { children } = props;
@@ -32,6 +32,6 @@ export default function ThemeBuilderProvider(props) {
   return (
     <ThemeBuilderContext.Provider value={value}>
       {children}
-    </ThemeBuilderContext.Provider>
+    </ThemeBuilderContext.Provider> 
   );
 }

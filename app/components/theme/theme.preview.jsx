@@ -1,5 +1,5 @@
 
-import { useThemeBuilder } from "../../context/theme.context.jsx";
+import { useThemeBuilder } from "../../context/theme.context";
 
 const ThemePreview = () => {
     const { template, primaryColor, secondaryColor, heading, subheading, body } =
