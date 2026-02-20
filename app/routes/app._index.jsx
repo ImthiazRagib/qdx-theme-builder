@@ -17,21 +17,21 @@ export default function Index() {
   const shopify = useAppBridge();
   const {
     selectedGroup,
-    selectedSectionName,
-    selectedSubsectionName,
-    template,
-    primaryColor,
-    secondaryColor,
+    // selectedSectionName,
+    // selectedSubsectionName,
+    // template,
+    // primaryColor,
+    // secondaryColor,
   } = useThemeBuilder();
 
-  console.log("ThemeBuilder state", {
-    selectedGroup,
-    selectedSectionName,
-    selectedSubsectionName,
-    template,
-    primaryColor,
-    secondaryColor,
-  });
+  // console.log("ThemeBuilder state", {
+  //   selectedGroup,
+  //   selectedSectionName,
+  //   selectedSubsectionName,
+  //   template,
+  //   primaryColor,
+  //   secondaryColor,
+  // });
 
   const handleSave = () => {
     shopify?.toast?.show("Theme settings updated");
