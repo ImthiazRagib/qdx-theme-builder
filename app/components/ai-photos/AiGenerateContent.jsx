@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const inputStyle = {
   padding: "0.5rem 0.75rem",
@@ -30,8 +30,11 @@ const btnPrimary = {
   cursor: "pointer",
 };
 
-function GeneratePhotosPanel() {
+function GeneratePhotosPanel({ selectedProduct }) {
   const [prompt, setPrompt] = useState("");
+  useEffect(() => {
+    if (selectedProduct?.title) setPrompt(selectedProduct.title);
+  }, [selectedProduct]);
   const [generating, setGenerating] = useState(false);
   const [resultUrls, setResultUrls] = useState([]);
 
@@ -92,8 +95,11 @@ function GeneratePhotosPanel() {
   );
 }
 
-function GenerateVideosPanel() {
+function GenerateVideosPanel({ selectedProduct }) {
   const [prompt, setPrompt] = useState("");
+  useEffect(() => {
+    if (selectedProduct?.title) setPrompt(selectedProduct.title);
+  }, [selectedProduct]);
   const [generating, setGenerating] = useState(false);
   const [resultUrl, setResultUrl] = useState(null);
 
@@ -161,8 +167,11 @@ function GenerateVideosPanel() {
   );
 }
 
-function ProductDescriptionPanel() {
+function ProductDescriptionPanel({ selectedProduct }) {
   const [productName, setProductName] = useState("");
+  useEffect(() => {
+    if (selectedProduct?.title) setProductName(selectedProduct.title);
+  }, [selectedProduct]);
   const [keywords, setKeywords] = useState("");
   const [generating, setGenerating] = useState(false);
   const [description, setDescription] = useState("");
@@ -230,12 +239,12 @@ function ProductDescriptionPanel() {
   );
 }
 
-export default function AiGenerateContent({ activeTab }) {
+export default function AiGenerateContent({ activeTab, selectedProduct }) {
   return (
     <>
-      {activeTab === "photos" && <GeneratePhotosPanel />}
-      {activeTab === "videos" && <GenerateVideosPanel />}
-      {activeTab === "description" && <ProductDescriptionPanel />}
+      {activeTab === "photos" && <GeneratePhotosPanel selectedProduct={selectedProduct} />}
+      {activeTab === "videos" && <GenerateVideosPanel selectedProduct={selectedProduct} />}
+      {activeTab === "description" && <ProductDescriptionPanel selectedProduct={selectedProduct} />}
     </>
   );
 }
