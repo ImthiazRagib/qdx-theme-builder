@@ -1,6 +1,8 @@
-import { Outlet } from "react-router";
+import { Outlet, useMatches } from "react-router";
 
 export default function AppLayout() {
+  const matches = useMatches();
+  const is404 = matches.some((m) => m.handle?.notFound === true);
   return (
     <div
       style={{
@@ -16,7 +18,8 @@ export default function AppLayout() {
           marginLeft: 0,
         }}
       >
-        <div
+        {!is404 && (
+          <div
           style={{
             padding: "0.5rem 1rem",
             textAlign: "right",
@@ -36,9 +39,10 @@ export default function AppLayout() {
               boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
             }}
           >
-            Upgrade to Pro
-          </button>
-        </div>
+              Upgrade to Pro
+            </button>
+          </div>
+        )}
         <Outlet />
       </main>
     </div>

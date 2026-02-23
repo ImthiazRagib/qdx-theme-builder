@@ -6,6 +6,8 @@ export const loader = async ({ request }) => {
   return null;
 };
 
+export const handle = { notFound: true };
+
 export default function AppSplat() {
   return <NotFoundPage />;
 }
