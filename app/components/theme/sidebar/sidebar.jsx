@@ -3,6 +3,7 @@ import { useThemeBuilder } from "../../../context/theme.context";
 
 const NAV_LINKS = [
   { to: "/app", label: "Dashboard" },
+  { to: "/app/your-stores", label: "Your stores" },
   { to: "/app/theme-builder", label: "Theme builder" },
   { to: "/app/my-page", label: "My page" },
   { to: "/app/additional", label: "Additional page" },
