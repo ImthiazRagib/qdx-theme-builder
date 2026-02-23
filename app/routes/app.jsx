@@ -5,6 +5,7 @@ import { authenticate } from "../shopify.server";
 import ThemeBuilderProvider from "../providers/theme-builder.provider";
 import AppLayout from "../components/theme/layout/app-layout";
 import AppNavMenu from "../components/app-nav-menu";
+import NotFoundPage from "../components/not-found-page";
 
 export const loader = async ({ request }) => {
   const session = await authenticate.admin(request);
@@ -28,7 +29,12 @@ export default function App() {
 
 // Shopify needs React Router to catch some thrown responses, so that their headers are included in the response.
 export function ErrorBoundary() {
-  return boundary.error(useRouteError());
+  const error = useRouteError();
+  const status = error && typeof error === "object" && "status" in error ? error.status : null;
+  if (status === 404 || (error instanceof Response && error.status === 404)) {
+    return <NotFoundPage />;
+  }
+  return boundary.error(error);
 }
 
 export const headers = (headersArgs) => {
