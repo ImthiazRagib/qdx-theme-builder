@@ -9,36 +9,35 @@ export default function AppLayout() {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
+        background: "#fafafa",
       }}
     >
       <main
         style={{
           flex: 1,
-          padding: "1rem",
+          padding: "1.5rem 1.5rem 2rem",
           marginLeft: 0,
+          maxWidth: 1200,
+          marginRight: "auto",
+          width: "100%",
+          boxSizing: "border-box",
         }}
       >
         {!is404 && (
-          <div
-          style={{
-            padding: "0.5rem 1rem",
-            textAlign: "right",
-          }}
-        >
-          <button
-            type="button"
-            style={{
-              padding: "0.25rem 0.5rem",
-              fontSize: "0.75rem",
-              fontWeight: 500,
-              borderRadius: "4px",
-              border: "1px solid #111",
-              background: "#000",
-              color: "#fff",
-              cursor: "pointer",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
-            }}
-          >
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
+            <button
+              type="button"
+              style={{
+                padding: "0.375rem 0.75rem",
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                borderRadius: "6px",
+                border: "none",
+                background: "#18181b",
+                color: "#fff",
+                cursor: "pointer",
+              }}
+            >
               Upgrade to Pro
             </button>
           </div>

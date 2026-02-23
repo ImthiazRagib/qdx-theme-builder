@@ -1,35 +1,36 @@
-const border = "1px solid #e5e7eb";
-const radius = "6px";
-
 const TABS = [
-  { id: "photos", label: "Generate photos", icon: "🖼️" },
-  { id: "videos", label: "Generate videos", icon: "🎬" },
-  { id: "description", label: "Product description", icon: "📝" },
+  { id: "photos", label: "Photos" },
+  { id: "videos", label: "Videos" },
+  { id: "description", label: "Description" },
 ];
 
 export default function AiGenerateTabs({ activeTab, onTabChange }) {
   return (
-    <div style={{ display: "flex", gap: "0.25rem", marginBottom: "1.25rem", flexWrap: "wrap" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "0.5rem",
+        marginBottom: "1.5rem",
+        borderBottom: "1px solid #e5e7eb",
+      }}
+    >
       {TABS.map((tab) => (
         <button
           key={tab.id}
           type="button"
           onClick={() => onTabChange(tab.id)}
           style={{
-            padding: "0.5rem 1rem",
-            fontSize: "0.875rem",
+            padding: "0.5rem 0",
+            fontSize: "0.8125rem",
             fontWeight: 500,
-            borderRadius: radius,
-            border,
-            background: activeTab === tab.id ? "#2563eb" : "#fff",
-            color: activeTab === tab.id ? "#fff" : "#374151",
+            background: "none",
+            border: "none",
+            borderBottom: activeTab === tab.id ? "2px solid #18181b" : "2px solid transparent",
+            marginBottom: "-1px",
+            color: activeTab === tab.id ? "#18181b" : "#71717a",
             cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.35rem",
           }}
         >
-          <span>{tab.icon}</span>
           {tab.label}
         </button>
       ))}

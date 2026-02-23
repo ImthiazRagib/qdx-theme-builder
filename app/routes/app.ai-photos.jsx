@@ -13,7 +13,7 @@ export default function AiPhotosPage() {
 
   return (
     <s-page heading="AI Photos">
-      <s-section heading="Generate photos, videos & product descriptions">
+      <s-section heading="Generate">
         <AiGenerateTabs activeTab={activeTab} onTabChange={setActiveTab} />
         <AiGenerateContent activeTab={activeTab} />
       </s-section>

@@ -1,25 +1,33 @@
 import { useState } from "react";
 
-const border = "1px solid #e5e7eb";
-const radius = "6px";
-
 const inputStyle = {
   padding: "0.5rem 0.75rem",
-  fontSize: "0.875rem",
-  borderRadius: radius,
-  border,
+  fontSize: "0.8125rem",
+  borderRadius: "6px",
+  border: "1px solid #e5e7eb",
   background: "#fff",
-  color: "#374151",
+  color: "#18181b",
   width: "100%",
   boxSizing: "border-box",
 };
 
 const cardStyle = {
-  background: "#f9fafb",
-  borderRadius: radius,
-  border,
-  padding: "1rem",
-  minHeight: 120,
+  background: "#fff",
+  borderRadius: "6px",
+  border: "1px solid #e5e7eb",
+  padding: "1.25rem",
+  minHeight: 140,
+};
+
+const btnPrimary = {
+  padding: "0.5rem 1rem",
+  fontSize: "0.8125rem",
+  fontWeight: 500,
+  borderRadius: "6px",
+  border: "none",
+  background: "#18181b",
+  color: "#fff",
+  cursor: "pointer",
 };
 
 function GeneratePhotosPanel() {
@@ -36,17 +44,17 @@ function GeneratePhotosPanel() {
   };
 
   return (
-    <div style={{ maxWidth: 640 }}>
-      <p style={{ fontSize: "0.875rem", color: "#6b7280", marginBottom: "0.75rem" }}>
-        Describe the product or scene. AI will generate product-ready images.
-      </p>
-      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+    <div style={{ maxWidth: 560 }}>
+      <label style={{ display: "block", fontSize: "0.8125rem", color: "#71717a", marginBottom: "0.5rem" }}>
+        Prompt
+      </label>
+      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
         <input
           type="text"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="e.g. Leather wallet on marble surface, soft lighting"
-          style={{ ...inputStyle, flex: "1", minWidth: 200 }}
+          placeholder="e.g. Leather wallet on marble, soft lighting"
+          style={{ ...inputStyle, flex: 1 }}
           aria-label="Photo prompt"
         />
         <button
@@ -54,35 +62,29 @@ function GeneratePhotosPanel() {
           onClick={handleGenerate}
           disabled={generating || !prompt.trim()}
           style={{
-            padding: "0.5rem 1rem",
-            fontSize: "0.875rem",
-            fontWeight: 500,
-            borderRadius: radius,
-            border: "none",
-            background: "#2563eb",
-            color: "#fff",
-            cursor: generating ? "wait" : "pointer",
-            opacity: generating || !prompt.trim() ? 0.7 : 1,
+            ...btnPrimary,
+            opacity: generating || !prompt.trim() ? 0.5 : 1,
+            cursor: generating || !prompt.trim() ? "not-allowed" : "pointer",
           }}
         >
-          {generating ? "Generating…" : "Generate photos"}
+          {generating ? "…" : "Generate"}
         </button>
       </div>
       <div style={cardStyle}>
         {resultUrls.length > 0 ? (
-          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
             {resultUrls.map((url, i) => (
               <img
                 key={i}
                 src={url}
                 alt={`Generated ${i + 1}`}
-                style={{ width: 120, height: 120, objectFit: "cover", borderRadius: radius }}
+                style={{ width: 100, height: 100, objectFit: "cover", borderRadius: "6px" }}
               />
             ))}
           </div>
         ) : (
-          <p style={{ fontSize: "0.875rem", color: "#9ca3af", margin: 0 }}>
-            Generated photos will appear here. Enter a prompt and click Generate.
+          <p style={{ fontSize: "0.8125rem", color: "#a1a1aa", margin: 0 }}>
+            Results will appear here.
           </p>
         )}
       </div>
@@ -100,22 +102,22 @@ function GenerateVideosPanel() {
     setResultUrl(null);
     setTimeout(() => {
       setGenerating(false);
-      setResultUrl("https://placehold.co/640x360?text=AI+video+placeholder");
+      setResultUrl(true);
     }, 2000);
   };
 
   return (
-    <div style={{ maxWidth: 640 }}>
-      <p style={{ fontSize: "0.875rem", color: "#6b7280", marginBottom: "0.75rem" }}>
-        Describe the product video you want. AI will create a short clip for listings or ads.
-      </p>
-      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+    <div style={{ maxWidth: 560 }}>
+      <label style={{ display: "block", fontSize: "0.8125rem", color: "#71717a", marginBottom: "0.5rem" }}>
+        Prompt
+      </label>
+      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
         <input
           type="text"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="e.g. Product rotating 360° on white background"
-          style={{ ...inputStyle, flex: "1", minWidth: 200 }}
+          placeholder="e.g. Product 360° on white"
+          style={{ ...inputStyle, flex: 1 }}
           aria-label="Video prompt"
         />
         <button
@@ -123,18 +125,12 @@ function GenerateVideosPanel() {
           onClick={handleGenerate}
           disabled={generating || !prompt.trim()}
           style={{
-            padding: "0.5rem 1rem",
-            fontSize: "0.875rem",
-            fontWeight: 500,
-            borderRadius: radius,
-            border: "none",
-            background: "#2563eb",
-            color: "#fff",
-            cursor: generating ? "wait" : "pointer",
-            opacity: generating || !prompt.trim() ? 0.7 : 1,
+            ...btnPrimary,
+            opacity: generating || !prompt.trim() ? 0.5 : 1,
+            cursor: generating || !prompt.trim() ? "not-allowed" : "pointer",
           }}
         >
-          {generating ? "Generating…" : "Generate video"}
+          {generating ? "…" : "Generate"}
         </button>
       </div>
       <div style={cardStyle}>
@@ -142,22 +138,22 @@ function GenerateVideosPanel() {
           <div
             style={{
               width: "100%",
-              maxWidth: 400,
+              maxWidth: 360,
               aspectRatio: "16/9",
-              background: "#e5e7eb",
-              borderRadius: radius,
+              background: "#f4f4f5",
+              borderRadius: "6px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#6b7280",
-              fontSize: "0.875rem",
+              color: "#71717a",
+              fontSize: "0.8125rem",
             }}
           >
-            Video ready (placeholder)
+            Video ready
           </div>
         ) : (
-          <p style={{ fontSize: "0.875rem", color: "#9ca3af", margin: 0 }}>
-            Generated video will appear here. Enter a prompt and click Generate.
+          <p style={{ fontSize: "0.8125rem", color: "#a1a1aa", margin: 0 }}>
+            Results will appear here.
           </p>
         )}
       </div>
@@ -183,55 +179,50 @@ function ProductDescriptionPanel() {
   };
 
   return (
-    <div style={{ maxWidth: 640 }}>
-      <p style={{ fontSize: "0.875rem", color: "#6b7280", marginBottom: "0.75rem" }}>
-        Add product name and optional keywords. AI will write a compelling description.
-      </p>
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1rem" }}>
-        <input
-          type="text"
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
-          placeholder="Product name"
-          style={inputStyle}
-          aria-label="Product name"
-        />
-        <input
-          type="text"
-          value={keywords}
-          onChange={(e) => setKeywords(e.target.value)}
-          placeholder="Keywords (optional) e.g. organic, handmade, luxury"
-          style={inputStyle}
-          aria-label="Keywords"
-        />
-        <button
-          type="button"
-          onClick={handleGenerate}
-          disabled={generating || !productName.trim()}
-          style={{
-            padding: "0.5rem 1rem",
-            fontSize: "0.875rem",
-            fontWeight: 500,
-            borderRadius: radius,
-            border: "none",
-            background: "#2563eb",
-            color: "#fff",
-            cursor: generating ? "wait" : "pointer",
-            opacity: generating || !productName.trim() ? 0.7 : 1,
-            alignSelf: "flex-start",
-          }}
-        >
-          {generating ? "Generating…" : "Generate description"}
-        </button>
-      </div>
+    <div style={{ maxWidth: 560 }}>
+      <label style={{ display: "block", fontSize: "0.8125rem", color: "#71717a", marginBottom: "0.5rem" }}>
+        Product name
+      </label>
+      <input
+        type="text"
+        value={productName}
+        onChange={(e) => setProductName(e.target.value)}
+        placeholder="Enter product name"
+        style={{ ...inputStyle, marginBottom: "0.75rem" }}
+        aria-label="Product name"
+      />
+      <label style={{ display: "block", fontSize: "0.8125rem", color: "#71717a", marginBottom: "0.5rem" }}>
+        Keywords (optional)
+      </label>
+      <input
+        type="text"
+        value={keywords}
+        onChange={(e) => setKeywords(e.target.value)}
+        placeholder="e.g. organic, handmade"
+        style={{ ...inputStyle, marginBottom: "1rem" }}
+        aria-label="Keywords"
+      />
+      <button
+        type="button"
+        onClick={handleGenerate}
+        disabled={generating || !productName.trim()}
+        style={{
+          ...btnPrimary,
+          opacity: generating || !productName.trim() ? 0.5 : 1,
+          cursor: generating || !productName.trim() ? "not-allowed" : "pointer",
+          marginBottom: "1rem",
+        }}
+      >
+        {generating ? "…" : "Generate"}
+      </button>
       <div style={cardStyle}>
         {description ? (
-          <p style={{ fontSize: "0.875rem", color: "#374151", margin: 0, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
+          <p style={{ fontSize: "0.8125rem", color: "#18181b", margin: 0, lineHeight: 1.6 }}>
             {description}
           </p>
         ) : (
-          <p style={{ fontSize: "0.875rem", color: "#9ca3af", margin: 0 }}>
-            Generated description will appear here. Enter a product name and click Generate.
+          <p style={{ fontSize: "0.8125rem", color: "#a1a1aa", margin: 0 }}>
+            Results will appear here.
           </p>
         )}
       </div>
