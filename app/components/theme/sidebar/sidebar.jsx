@@ -5,6 +5,7 @@ const NAV_LINKS = [
   { to: "/app", label: "Dashboard" },
   { to: "/app/your-stores", label: "Your stores" },
   { to: "/app/theme-builder", label: "Theme builder" },
+  { to: "/app/bundle-deals", label: "Bundle Deals" },
   { to: "/app/my-page", label: "My page" },
   { to: "/app/additional", label: "Additional page" },
   { to: "/app/product-import", label: "Product import" },
