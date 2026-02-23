@@ -6,9 +6,6 @@ import ThemeControls from "../components/theme/theme.controls";
 import { ThemeSectionNavigator } from "../components/theme/theme.customize";
 import SectionFields from "../components/theme/theme.section-fields";
 import { useThemeBuilder } from "../context/theme.context";
-import Header from "../components/theme/header/header";
-import Sidebar from "../components/theme/sidebar/sidebar";
-import { useState } from "react";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
@@ -18,9 +15,7 @@ export const loader = async ({ request }) => {
 
 export default function Index() {
   const shopify = useAppBridge();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
-  const closeSidebar = () => setSidebarOpen(false);
+
   const {
     selectedGroup,
     // selectedSectionName,
@@ -50,8 +45,6 @@ export default function Index() {
 
   return (
     <s-page heading="Theme builder">
-      <Header onMenuClick={toggleSidebar} sidebarOpen={sidebarOpen} />
-      <Sidebar open={sidebarOpen} onClose={closeSidebar} />
       <s-section heading="Customize theme">
         <div
           style={{

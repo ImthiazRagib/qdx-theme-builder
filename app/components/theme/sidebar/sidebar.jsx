@@ -66,6 +66,7 @@ export default function Sidebar({ open, onClose, previewMode = false }) {
             style={{
               padding: "1rem 0.75rem",
               borderBottom: `1px solid ${secondaryColor}30`,
+              marginTop: "4rem",
             }}
           >
             <span
@@ -125,6 +126,7 @@ export default function Sidebar({ open, onClose, previewMode = false }) {
         <div
           style={{
             padding: "1rem 0.75rem",
+            marginTop: "4rem",
             borderBottom: `1px solid ${secondaryColor}30`,
           }}
         >
