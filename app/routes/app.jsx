@@ -1,9 +1,10 @@
-import { Outlet, useLoaderData, useRouteError } from "react-router";
+import { useLoaderData, useRouteError } from "react-router";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { AppProvider } from "@shopify/shopify-app-react-router/react";
 import { authenticate } from "../shopify.server";
 import ThemeBuilderProvider from "../providers/theme-builder.provider";
 import AppLayout from "../components/theme/layout/app-layout";
+import AppNavMenu from "../components/app-nav-menu";
 
 export const loader = async ({ request }) => {
   const session = await authenticate.admin(request);
@@ -18,6 +19,7 @@ export default function App() {
   return (
     <ThemeBuilderProvider>
       <AppProvider embedded apiKey={apiKey}>
+        <AppNavMenu />
         <AppLayout />
       </AppProvider>
     </ThemeBuilderProvider>
