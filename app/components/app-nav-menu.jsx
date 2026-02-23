@@ -10,9 +10,10 @@ export default function AppNavMenu() {
       <Link to="/app" rel="home">
         Dashboard
       </Link>
-      <Link to="/app/theme-builder">Theme builder</Link>
-      <Link to="/app/additional">Additional page</Link>
-      <Link to="/app/product-import">Product import</Link>
+      <Link to="/app/your-stores">Your stores</Link>
+      <Link to="/app/sales-channels">Sales channels</Link>
+      <Link to="/app/bundle-deals">Bundle Deals</Link>
+      <Link to="/app/ai-photos">AI Photos</Link>
       <Link to="/app/settings">Settings</Link>
       <Link to="/app/help">Help</Link>
     </s-app-nav>

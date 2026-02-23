@@ -66,8 +66,8 @@ export default function SelectProductSource() {
           <span style={{ fontSize: "1rem" }}>←</span>
           Select product source
         </Link>
-        <button
-          type="button"
+        <Link
+          to="/app/product-import/images"
           style={{
             padding: "0.4rem 1rem",
             fontSize: "0.8125rem",
@@ -76,11 +76,12 @@ export default function SelectProductSource() {
             border,
             background: "#fff",
             color: "#374151",
+            textDecoration: "none",
             cursor: "pointer",
           }}
         >
           Proceed
-        </button>
+        </Link>
       </div>
 
       {/* Info banner */}
