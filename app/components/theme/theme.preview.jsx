@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { useThemeBuilder } from "../../context/theme.context";
+import Header from "./header/header";
+import Sidebar from "./sidebar/sidebar";
 
 const ThemePreview = () => {
     const {
@@ -12,12 +15,17 @@ const ThemePreview = () => {
         selectedGroup,
     } = useThemeBuilder();
 
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const toggleSidebar = () => setSidebarOpen((p) => !p);
+    const closeSidebar = () => setSidebarOpen(false);
+
     const containerStyle = {
         borderRadius: "1rem",
         overflow: "hidden",
         border: "1px solid #d0d4db",
         background: "white",
         boxShadow: "0 10px 30px rgba(15, 23, 42, 0.06)",
+        position: "relative",
     };
 
     const heroBackground =
@@ -654,6 +662,8 @@ const ThemePreview = () => {
 
     const renderHomepage = () => (
         <div style={containerStyle}>
+            <Header onMenuClick={toggleSidebar} sidebarOpen={sidebarOpen} />
+            <Sidebar open={sidebarOpen} onClose={closeSidebar} previewMode />
             <div
                 style={{
                     display: "flex",
@@ -671,6 +681,8 @@ const ThemePreview = () => {
 
     const renderProductPage = () => (
         <div style={containerStyle}>
+            <Header onMenuClick={toggleSidebar} sidebarOpen={sidebarOpen} />
+            <Sidebar open={sidebarOpen} onClose={closeSidebar} previewMode />
             <div
                 style={{
                     padding: "1.75rem 1.75rem 1.5rem",
