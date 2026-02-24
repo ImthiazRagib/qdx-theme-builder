@@ -4,6 +4,7 @@ import { authenticate } from "../shopify.server";
 import AiGenerateTabs from "../components/ai-photos/AiGenerateTabs";
 import AiGenerateContent from "../components/ai-photos/AiGenerateContent";
 import ProductBrowse from "../components/ai-photos/ProductBrowse";
+import AiModelSelector from "../components/ai-photos/AiModelSelector";
 
 const PRODUCTS_QUERY = `#graphql
   query products($first: Int!) {
@@ -68,6 +69,12 @@ export default function AiPhotosPage() {
   const [activeTab, setActiveTab] = useState("photos");
   const [showBrowse, setShowBrowse] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modelName, setModelName] = useState("basic");
+  const [executionType, setExecutionType] = useState("balanced");
+  const [generationMode, setGenerationMode] = useState("replace-bg");
+  const [gender, setGender] = useState("unisex");
+  const [brandLogo, setBrandLogo] = useState("no");
+  const [modelStyles, setModelStyles] = useState([]);
   const { products = [], error } = useLoaderData() ?? {};
 
   return (
@@ -112,6 +119,20 @@ export default function AiPhotosPage() {
           </div>
         )}
         <AiGenerateTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        <AiModelSelector
+          modelName={modelName}
+          onModelNameChange={setModelName}
+          executionType={executionType}
+          onExecutionChange={setExecutionType}
+          generationMode={generationMode}
+          onGenerationModeChange={setGenerationMode}
+          gender={gender}
+          onGenderChange={setGender}
+          brandLogo={brandLogo}
+          onBrandLogoChange={setBrandLogo}
+          modelStyles={modelStyles}
+          onModelStylesChange={setModelStyles}
+        />
         <AiGenerateContent activeTab={activeTab} selectedProduct={selectedProduct} />
       </s-section>
     </s-page>
