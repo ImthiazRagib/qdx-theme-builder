@@ -15,6 +15,15 @@ const PRODUCTS_QUERY = `#graphql
         featuredImage {
           url
         }
+        media(first: 20) {
+          nodes {
+            ... on MediaImage {
+              image {
+                url
+              }
+            }
+          }
+        }
       }
       pageInfo {
         hasNextPage
@@ -34,12 +43,20 @@ export const loader = async ({ request }) => {
     });
     const json = await response.json();
     if (json.data?.products?.nodes) {
-      products = json.data.products.nodes.map((p) => ({
-        id: p.id,
-        title: p.title,
-        handle: p.handle,
-        imageUrl: p.featuredImage?.url ?? null,
-      }));
+      products = json.data.products.nodes.map((p) => {
+        const mediaUrls = (p.media?.nodes ?? [])
+          .map((n) => n.image?.url)
+          .filter(Boolean);
+        const imageUrl = p.featuredImage?.url ?? mediaUrls[0] ?? null;
+        const images = mediaUrls.length > 0 ? mediaUrls : (imageUrl ? [imageUrl] : []);
+        return {
+          id: p.id,
+          title: p.title,
+          handle: p.handle,
+          imageUrl,
+          images,
+        };
+      });
     }
   } catch (e) {
     error = e?.message ?? "Failed to load products";

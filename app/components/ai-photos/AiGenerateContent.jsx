@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ProductImageSelector from "./ProductImageSelector";
 
 const inputStyle = {
   padding: "0.5rem 0.75rem",
@@ -48,6 +49,13 @@ function GeneratePhotosPanel({ selectedProduct }) {
 
   return (
     <div style={{ maxWidth: 560 }}>
+      {selectedProduct?.images?.length > 0 && (
+        <ProductImageSelector
+          key={selectedProduct.id}
+          images={selectedProduct.images}
+          onSelectionChange={() => {}}
+        />
+      )}
       <label style={{ display: "block", fontSize: "0.8125rem", color: "#71717a", marginBottom: "0.5rem" }}>
         Prompt
       </label>
@@ -114,6 +122,13 @@ function GenerateVideosPanel({ selectedProduct }) {
 
   return (
     <div style={{ maxWidth: 560 }}>
+      {selectedProduct?.images?.length > 0 && (
+        <ProductImageSelector
+          key={selectedProduct.id}
+          images={selectedProduct.images}
+          onSelectionChange={() => {}}
+        />
+      )}
       <label style={{ display: "block", fontSize: "0.8125rem", color: "#71717a", marginBottom: "0.5rem" }}>
         Prompt
       </label>
@@ -189,6 +204,13 @@ function ProductDescriptionPanel({ selectedProduct }) {
 
   return (
     <div style={{ maxWidth: 560 }}>
+      {selectedProduct?.images?.length > 0 && (
+        <ProductImageSelector
+          key={selectedProduct.id}
+          images={selectedProduct.images}
+          onSelectionChange={() => {}}
+        />
+      )}
       <label style={{ display: "block", fontSize: "0.8125rem", color: "#71717a", marginBottom: "0.5rem" }}>
         Product name
       </label>
