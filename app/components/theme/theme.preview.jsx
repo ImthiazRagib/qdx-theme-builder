@@ -1,15 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useThemeBuilder } from "../../context/theme.context";
 import Header from "./header/header";
 import Sidebar from "./sidebar/sidebar";
 
+const sectionIdMap = {
+    "Header": "section-header",
+    "Logo & navigation": "section-header",
+    "Hero Banner": "section-hero-banner",
+    "Featured Products": "section-featured-products",
+    "Image with text": "section-image-with-text",
+    "Testimonials": "section-testimonials",
+    "Newsletter": "section-newsletter",
+    "Footer": "section-footer",
+    "Gallery": "section-product-gallery",
+    "Thumbnails": "section-product-gallery",
+    "Zoom View": "section-product-gallery",
+    "Details": "section-product-details",
+    "Title": "section-product-details",
+    "Price": "section-product-details",
+    "Description": "section-product-details",
+    "Reviews": "section-product-reviews",
+};
+
 const ThemePreview = () => {
+    const scrollContainerRef = useRef(null);
     const {
         template,
         primaryColor,
         secondaryColor,
         sections,
         selectedGroup,
+        selectedSectionName,
     } = useThemeBuilder();
 
     const hero = sections?.heroBanner || {};
@@ -21,6 +42,16 @@ const ThemePreview = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen((p) => !p);
     const closeSidebar = () => setSidebarOpen(false);
+
+    useEffect(() => {
+        const id = sectionIdMap[selectedSectionName] ?? sectionIdMap[selectedGroup];
+        if (id && scrollContainerRef.current) {
+            const el = scrollContainerRef.current.querySelector(`#${id}`);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+    }, [selectedGroup, selectedSectionName]);
 
     const containerStyle = {
         borderRadius: "1rem",
@@ -695,7 +726,9 @@ const ThemePreview = () => {
 
     const renderHomepage = () => (
         <div style={containerStyle}>
-            <Header onMenuClick={toggleSidebar} sidebarOpen={sidebarOpen} />
+            <div id="section-header">
+                <Header onMenuClick={toggleSidebar} sidebarOpen={sidebarOpen} />
+            </div>
             <Sidebar open={sidebarOpen} onClose={closeSidebar} previewMode />
             <div
                 style={{
@@ -704,19 +737,21 @@ const ThemePreview = () => {
                     gap: "1.25rem",
                 }}
             >
-                {renderHero()}
-                {renderFeaturedProducts()}
-                {renderImageWithText()}
-                {renderTestimonials()}
-                {renderNewsletter()}
-                {renderFooter()}
+                <div id="section-hero-banner">{renderHero()}</div>
+                <div id="section-featured-products">{renderFeaturedProducts()}</div>
+                <div id="section-image-with-text">{renderImageWithText()}</div>
+                <div id="section-testimonials">{renderTestimonials()}</div>
+                <div id="section-newsletter">{renderNewsletter()}</div>
+                <div id="section-footer">{renderFooter()}</div>
             </div>
         </div>
     );
 
     const renderProductPage = () => (
         <div style={containerStyle}>
-            <Header onMenuClick={toggleSidebar} sidebarOpen={sidebarOpen} />
+            <div id="section-header">
+                <Header onMenuClick={toggleSidebar} sidebarOpen={sidebarOpen} />
+            </div>
             <Sidebar open={sidebarOpen} onClose={closeSidebar} previewMode />
             <div
                 style={{
@@ -755,7 +790,7 @@ const ThemePreview = () => {
                     gap: "1.5rem",
                 }}
             >
-                <div>
+                <div id="section-product-gallery">
                     <div
                         style={{
                             height: "10rem",
@@ -788,7 +823,7 @@ const ThemePreview = () => {
                         ))}
                     </div>
                 </div>
-                <div>
+                <div id="section-product-details">
                     <h3
                         style={{
                             fontSize: "1.1rem",
@@ -854,34 +889,53 @@ const ThemePreview = () => {
                         </button>
                     </div>
                 </div>
+                <div id="section-product-reviews" style={{ gridColumn: "1 / -1", padding: "1rem", border: "1px solid #e5e7eb", borderRadius: "0.5rem", background: "#f9fafb" }}>
+                    <p style={{ margin: 0, fontSize: "0.85rem", color: "#6b7280" }}>Product reviews section</p>
+                </div>
             </div>
         </div>
     );
 
+    const scrollWrapper = (
+        <div
+            ref={scrollContainerRef}
+            style={{
+                overflowY: "auto",
+                maxHeight: "calc(100vh - 10rem)",
+                borderRadius: "1rem",
+            }}
+        >
+            {selectedGroup === "Product Page" ? renderProductPage() : renderHomepage()}
+        </div>
+    );
+
     if (selectedGroup === "Homepage") {
-        return renderHomepage();
+        return scrollWrapper;
     }
 
     if (selectedGroup === "Product Page") {
-        return renderProductPage();
+        return scrollWrapper;
     }
 
     if (selectedGroup === "Colors") {
         return (
             <div
+                ref={scrollContainerRef}
                 style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1.5rem",
+                    overflowY: "auto",
+                    maxHeight: "calc(100vh - 10rem)",
+                    borderRadius: "1rem",
                 }}
             >
-                {renderHomepage()}
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                    {renderHomepage()}
+                </div>
             </div>
         );
     }
 
-    // Fallback: show homepage
-    return renderHomepage();
+    // Fallback: show homepage (Header, Footer)
+    return scrollWrapper;
 };
 
 export default ThemePreview;
