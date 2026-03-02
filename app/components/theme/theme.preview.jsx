@@ -85,17 +85,6 @@ const ThemePreview = () => {
                     }}
                 >
                     <div>
-                        <p
-                            style={{
-                                fontSize: "0.75rem",
-                                textTransform: "uppercase",
-                                letterSpacing: "0.08em",
-                                color: "#6b7280",
-                                marginBottom: "0.75rem",
-                            }}
-                        >
-                            Homepage · Hero Banner
-                        </p>
                         <h2
                             style={{
                                 fontSize: "1.6rem",
@@ -234,26 +223,15 @@ const ThemePreview = () => {
                     <div
                         style={{
                             flex: 1,
-                            backgroundColor: "rgba(255, 255, 255, 0.96)",
+                            // backgroundColor: "rgba(255, 255, 255, 0.96)",
                         }}
                     >
-                        <p
-                            style={{
-                                fontSize: "0.75rem",
-                                textTransform: "uppercase",
-                                letterSpacing: "0.08em",
-                                color: "#9ca3af",
-                                marginBottom: "0.5rem",
-                            }}
-                        >
-                            Homepage · Hero Banner
-                        </p>
                         <h2
                             style={{
                                 fontSize: "1.4rem",
                                 lineHeight: 1.3,
                                 margin: 0,
-                                color: "#111827",
+                                color: "#fff",
                             }}
                         >
                             {heading}
@@ -262,7 +240,7 @@ const ThemePreview = () => {
                             style={{
                                 marginTop: "0.65rem",
                                 fontSize: "0.9rem",
-                                color: "#4b5563",
+                                color: "#fff",
                             }}
                         >
                             {subheading}
@@ -271,7 +249,7 @@ const ThemePreview = () => {
                             style={{
                                 marginTop: "0.9rem",
                                 fontSize: "0.9rem",
-                                color: "#6b7280",
+                                color: "#fff",
                             }}
                         >
                             {body}
@@ -321,22 +299,12 @@ const ThemePreview = () => {
                     color: "white",
                 }}
             >
-                <p
-                    style={{
-                        fontSize: "0.75rem",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        opacity: 0.9,
-                        marginBottom: "0.75rem",
-                    }}
-                >
-                    Homepage · Hero Banner
-                </p>
                 <h2
                     style={{
                         fontSize: "1.8rem",
                         lineHeight: 1.25,
                         margin: 0,
+                        textAlign: "center",
                     }}
                 >
                     {heading}
@@ -347,45 +315,46 @@ const ThemePreview = () => {
                         fontSize: "0.95rem",
                         maxWidth: "30rem",
                         opacity: 0.95,
+                        textAlign: "center",
                     }}
                 >
                     {subheading}
+                </p>
+                <p
+                    style={{
+                        marginTop: "0.85rem",
+                        fontSize: "0.95rem",
+                        maxWidth: "30rem",
+                        opacity: 0.95,
+                        textAlign: "center",
+                        fontsize: "0.5rem",
+                    }}
+                >
+                    {body}
                 </p>
                 <div
                     style={{
                         marginTop: "1.25rem",
                         display: "flex",
                         gap: "0.75rem",
+                        justifyContent: "center",
+                        alignItems: "center",
                     }}
                 >
-                        <button
-                                type="button"
-                                style={{
-                                    padding: "0.6rem 1.35rem",
-                                    borderRadius: "999px",
-                                    border: "none",
-                                    background: "#f9fafb",
-                                    color: "#111827",
-                                    fontSize: "0.85rem",
-                                    cursor: "pointer",
-                                }}
-                            >
-                                {hero.primaryCtaText || "Shop the collection"}
-                            </button>
-                            <button
-                                type="button"
-                                style={{
-                                    padding: "0.6rem 1.35rem",
-                                    borderRadius: "999px",
-                                    border: "1px solid rgba(249, 250, 251, 0.7)",
-                                    background: "transparent",
-                                    color: "white",
-                                    fontSize: "0.85rem",
-                                    cursor: "pointer",
-                                }}
-                            >
-                                {hero.secondaryCtaText || "Learn more"}
-                            </button>
+                    <button
+                        type="button"
+                        style={{
+                            padding: "0.6rem 1.35rem",
+                            borderRadius: "999px",
+                            border: "none",
+                            background: primaryColor,
+                            color: "white",
+                            fontSize: "0.85rem",
+                            cursor: "pointer",
+                        }}
+                    >
+                        {hero.primaryCtaText || "Shop the collection"}
+                    </button>
                 </div>
             </div>
         );
@@ -397,101 +366,90 @@ const ThemePreview = () => {
         const fpSubheading = fp.subheading || subheading;
         const cols = fp.columnsDesktop || 4;
         return (
-        <div>
-            <div
-                style={{
-                    padding: "1.75rem 1.75rem 1.5rem",
-                    backgroundImage:
-                        bannerImageUrl && bannerImageUrl.trim().length > 0
-                            ? `linear-gradient(135deg, rgba(17, 24, 39, 0.7), rgba(15, 23, 42, 0.9)), url(${bannerImageUrl})`
-                            : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    color: "white",
-                }}
-            >
-                <p
-                    style={{
-                        fontSize: "0.75rem",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        opacity: 0.9,
-                        marginBottom: "0.75rem",
-                    }}
-                >
-                    Homepage · Featured Products
-                </p>
-                <h2
-                    style={{
-                        fontSize: "1.4rem",
-                        lineHeight: 1.3,
-                        margin: 0,
-                    }}
-                >
-                    {fpHeading}
-                </h2>
-                <p
-                    style={{
-                        marginTop: "0.65rem",
-                        fontSize: "0.9rem",
-                        maxWidth: "28rem",
-                    }}
-                >
-                    {fpSubheading}
-                </p>
-            </div>
-            <div
-                style={{
-                    padding: "1.5rem 1.75rem",
-                    background: "white",
-                }}
-            >
+            <div>
                 <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-                    gap: "1rem",
-                }}
-            >
-                {Array.from({ length: Math.min(fp.productsToShow || 8, 8) }).map((_, index) => (
-                        <div
-                            key={index}
-                            style={{
-                                borderRadius: "0.75rem",
-                                border: "1px solid #e5e7eb",
-                                padding: "0.85rem",
-                            }}
-                        >
+                    style={{
+                        padding: "1.75rem 1.75rem 1.5rem",
+                        backgroundImage:
+                            bannerImageUrl && bannerImageUrl.trim().length > 0
+                                ? `linear-gradient(135deg, rgba(17, 24, 39, 0.7), rgba(15, 23, 42, 0.9)), url(${bannerImageUrl})`
+                                : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        color: "white",
+                    }}
+                >
+                    <h2
+                        style={{
+                            fontSize: "1.4rem",
+                            lineHeight: 1.3,
+                            margin: 0,
+                        }}
+                    >
+                        {fpHeading}
+                    </h2>
+                    <p
+                        style={{
+                            marginTop: "0.65rem",
+                            fontSize: "0.9rem",
+                            maxWidth: "28rem",
+                        }}
+                    >
+                        {fpSubheading}
+                    </p>
+                </div>
+                <div
+                    style={{
+                        padding: "1.5rem 1.75rem",
+                        background: "white",
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+                            gap: "1rem",
+                        }}
+                    >
+                        {Array.from({ length: Math.min(fp.productsToShow || 8, 8) }).map((_, index) => (
                             <div
+                                key={index}
                                 style={{
-                                    height: "5rem",
-                                    borderRadius: "0.5rem",
-                                    background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                                    marginBottom: "0.6rem",
+                                    borderRadius: "0.75rem",
+                                    border: "1px solid #e5e7eb",
+                                    padding: "0.85rem",
                                 }}
-                            />
-                            <div
-                                style={{
-                                    width: "50%",
-                                    height: "0.35rem",
-                                    borderRadius: "999px",
-                                    background: "#d1d5db",
-                                }}
-                            />
-                            <div
-                                style={{
-                                    width: "70%",
-                                    height: "0.35rem",
-                                    borderRadius: "999px",
-                                    background: "#e5e7eb",
-                                    marginTop: "0.25rem",
-                                }}
-                            />
-                        </div>
-                    ))}
+                            >
+                                <div
+                                    style={{
+                                        height: "5rem",
+                                        borderRadius: "0.5rem",
+                                        background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+                                        marginBottom: "0.6rem",
+                                    }}
+                                />
+                                <div
+                                    style={{
+                                        width: "50%",
+                                        height: "0.35rem",
+                                        borderRadius: "999px",
+                                        background: "#d1d5db",
+                                    }}
+                                />
+                                <div
+                                    style={{
+                                        width: "70%",
+                                        height: "0.35rem",
+                                        borderRadius: "999px",
+                                        background: "#e5e7eb",
+                                        marginTop: "0.25rem",
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
         );
     };
 
@@ -501,193 +459,171 @@ const ThemePreview = () => {
         const tSubheading = t.subheading || subheading;
         const items = t.items || [];
         return (
-        <div>
-            <div
-                style={{
-                    padding: "2rem 2rem 1.5rem",
-                    background: "#f9fafb",
-                }}
-            >
-                <p
+            <div>
+                <div
                     style={{
-                        fontSize: "0.75rem",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        color: "#6b7280",
-                        marginBottom: "0.75rem",
+                        padding: "2rem 2rem 1.5rem",
+                        background: "#f9fafb",
                     }}
                 >
-                    Homepage · Testimonials
-                </p>
-                <h2
-                    style={{
-                        fontSize: "1.4rem",
-                        lineHeight: 1.3,
-                        margin: 0,
-                        color: "#111827",
-                    }}
-                >
-                    {tHeading}
-                </h2>
-                <p
-                    style={{
-                        marginTop: "0.6rem",
-                        fontSize: "0.9rem",
-                        color: "#4b5563",
-                        maxWidth: "30rem",
-                    }}
-                >
-                    {tSubheading}
-                </p>
-            </div>
-            <div
-                style={{
-                    padding: "1.5rem 1.75rem 1.75rem",
-                    background: "white",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                    gap: "1rem",
-                }}
-            >
-                {(items.length ? items : [{ quote: body, author: "" }]).slice(0, 3).map((item, index) => (
-                    <div
-                        key={index}
+                    <h2
                         style={{
-                            borderRadius: "0.75rem",
-                            border: "1px solid #e5e7eb",
-                            padding: "1rem",
+                            fontSize: "1.4rem",
+                            lineHeight: 1.3,
+                            margin: 0,
+                            color: "#111827",
                         }}
                     >
+                        {tHeading}
+                    </h2>
+                    <p
+                        style={{
+                            marginTop: "0.6rem",
+                            fontSize: "0.9rem",
+                            color: "#4b5563",
+                            maxWidth: "30rem",
+                        }}
+                    >
+                        {tSubheading}
+                    </p>
+                </div>
+                <div
+                    style={{
+                        padding: "1.5rem 1.75rem 1.75rem",
+                        background: "white",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                        gap: "1rem",
+                    }}
+                >
+                    {(items.length ? items : [{ quote: body, author: "" }]).slice(0, 3).map((item, index) => (
                         <div
+                            key={index}
                             style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "0.5rem",
-                                marginBottom: "0.7rem",
+                                borderRadius: "0.75rem",
+                                border: "1px solid #e5e7eb",
+                                padding: "1rem",
                             }}
                         >
-                            <span
+                            <div
                                 style={{
-                                    width: "2rem",
-                                    height: "2rem",
-                                    borderRadius: "999px",
-                                    background: primaryColor,
-                                    opacity: 0.9,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "0.5rem",
+                                    marginBottom: "0.7rem",
                                 }}
-                            />
-                            <span style={{ fontSize: "0.8rem", fontWeight: 500 }}>{item.author}</span>
+                            >
+                                <span
+                                    style={{
+                                        width: "2rem",
+                                        height: "2rem",
+                                        borderRadius: "999px",
+                                        background: primaryColor,
+                                        opacity: 0.9,
+                                    }}
+                                />
+                                <span style={{ fontSize: "0.8rem", fontWeight: 500 }}>{item.author}</span>
+                            </div>
+                            <p
+                                style={{
+                                    fontSize: "0.85rem",
+                                    color: "#4b5563",
+                                    lineHeight: 1.5,
+                                }}
+                            >
+                                {item.quote}
+                            </p>
                         </div>
-                        <p
-                            style={{
-                                fontSize: "0.85rem",
-                                color: "#4b5563",
-                                lineHeight: 1.5,
-                            }}
-                        >
-                            {item.quote}
-                        </p>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
         );
     };
 
     const renderNewsletter = () => {
         const n = sections?.newsletter || {};
         return (
-        <div>
-            <div
-                style={{
-                    padding: "2.25rem 2rem 2rem",
-                    backgroundImage:
-                        bannerImageUrl && bannerImageUrl.trim().length > 0
-                            ? `linear-gradient(135deg, rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.9)), url(${bannerImageUrl})`
-                            : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    color: "white",
-                }}
-            >
-                <p
-                    style={{
-                        fontSize: "0.75rem",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        opacity: 0.9,
-                        marginBottom: "0.75rem",
-                    }}
-                >
-                    Homepage · Newsletter
-                </p>
-                <h2
-                    style={{
-                        fontSize: "1.6rem",
-                        lineHeight: 1.25,
-                        margin: 0,
-                    }}
-                >
-                    {n.heading || heading}
-                </h2>
-                <p
-                    style={{
-                        marginTop: "0.7rem",
-                        fontSize: "0.95rem",
-                        maxWidth: "30rem",
-                    }}
-                >
-                    {n.subheading || subheading}
-                </p>
+            <div>
                 <div
                     style={{
-                        marginTop: "1.1rem",
-                        display: "flex",
-                        gap: "0.6rem",
+                        padding: "2.25rem 2rem 2rem",
+                        backgroundImage:
+                            bannerImageUrl && bannerImageUrl.trim().length > 0
+                                ? `linear-gradient(135deg, rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.9)), url(${bannerImageUrl})`
+                                : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        color: "white",
                     }}
                 >
-                    <input
-                        placeholder={n.placeholder || "Enter your email"}
+                    <h2
                         style={{
-                            flex: 1,
-                            padding: "0.55rem 0.75rem",
-                            borderRadius: "999px",
-                            border: "none",
-                            fontSize: "0.85rem",
-                        }}
-                    />
-                    <button
-                        type="button"
-                        style={{
-                            padding: "0.55rem 1.25rem",
-                            borderRadius: "999px",
-                            border: "none",
-                            background: "#f9fafb",
-                            color: "#111827",
-                            fontSize: "0.85rem",
-                            cursor: "pointer",
+                            fontSize: "1.6rem",
+                            lineHeight: 1.25,
+                            margin: 0,
                         }}
                     >
-                        {n.buttonText || "Subscribe"}
-                    </button>
+                        {n.heading || heading}
+                    </h2>
+                    <p
+                        style={{
+                            marginTop: "0.7rem",
+                            fontSize: "0.95rem",
+                            maxWidth: "30rem",
+                        }}
+                    >
+                        {n.subheading || subheading}
+                    </p>
+                    <div
+                        style={{
+                            marginTop: "1.1rem",
+                            display: "flex",
+                            gap: "0.6rem",
+                        }}
+                    >
+                        <input
+                            placeholder={n.placeholder || "Enter your email"}
+                            style={{
+                                flex: 1,
+                                padding: "0.55rem 0.75rem",
+                                borderRadius: "999px",
+                                border: "none",
+                                fontSize: "0.85rem",
+                            }}
+                        />
+                        <button
+                            type="button"
+                            style={{
+                                padding: "0.55rem 1.25rem",
+                                borderRadius: "999px",
+                                border: "none",
+                                background: "#f9fafb",
+                                color: "#111827",
+                                fontSize: "0.85rem",
+                                cursor: "pointer",
+                            }}
+                        >
+                            {n.buttonText || "Subscribe"}
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div
-                style={{
-                    padding: "1.25rem 1.75rem",
-                    background: "white",
-                }}
-            >
-                <p
+                <div
                     style={{
-                        margin: 0,
-                        fontSize: "0.85rem",
-                        color: "#6b7280",
+                        padding: "1.25rem 1.75rem",
+                        background: "white",
                     }}
                 >
-                    {n.body || body}
-                </p>
+                    <p
+                        style={{
+                            margin: 0,
+                            fontSize: "0.85rem",
+                            color: "#6b7280",
+                        }}
+                    >
+                        {n.body || body}
+                    </p>
+                </div>
             </div>
-        </div>
         );
     };
 

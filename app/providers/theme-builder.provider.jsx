@@ -18,9 +18,9 @@ const defaultSections = {
 
   // Hero Banner
   heroBanner: {
-    heading: "Welcome to your Shopify store",
-    subheading: "Pick a template, change the colors, and edit this content live.",
-    body: "Use this theme builder to experiment with hero sections before publishing them to your theme.",
+    heading: "Command Attention With Every Scented Step",
+    subheading: "Unleash Your True Allure",
+    body: "Rated #1 Best Selling Product in 2025 in Men's Fragrance",
     bannerImageUrl: "",
     primaryCtaText: "Shop the collection",
     primaryCtaLink: "/collections/all",
