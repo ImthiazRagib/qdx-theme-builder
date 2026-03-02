@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLoaderData } from "react-router";
+import { useThemeBuilder } from "../../context/theme.context";
 
 const PRODUCT_SOURCES = [
   { id: "shopify", label: "Shopify", icon: "🛒", color: "#22c55e" },
@@ -31,12 +32,14 @@ const inputStyle = {
 };
 
 export default function SelectProductSource() {
+  const { products = [] } = useLoaderData() ?? {};
+  const { setPreviewProduct, previewProduct } = useThemeBuilder();
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const [storeLanguage, setStoreLanguage] = useState("english");
   const [researchContext, setResearchContext] = useState("none");
   const [themeMethod, setThemeMethod] = useState("template-library");
   const [templateSelected, setTemplateSelected] = useState("");
-  const [productSource, setProductSource] = useState("aliexpress");
+  const [productSource, setProductSource] = useState("shopify");
   const [productUrl, setProductUrl] = useState("");
 
   const sourceLabel = PRODUCT_SOURCES.find((s) => s.id === productSource)?.label ?? productSource;
@@ -325,35 +328,92 @@ export default function SelectProductSource() {
         </div>
       </div>
 
-      {/* Product URL (dynamic by selected source) */}
-      <div style={{ marginBottom: "1rem" }}>
-        <label style={labelStyle}>{sourceLabel} product link:</label>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
-          <input
-            type="url"
-            placeholder={`Paste a valid ${sourceLabel} product link`}
-            value={productUrl}
-            onChange={(e) => setProductUrl(e.target.value)}
-            style={{ ...inputStyle, flex: 1 }}
-          />
-          <button
-            type="button"
+      {/* Shopify product selector */}
+      {productSource === "shopify" && (
+        <div style={{ marginBottom: "1rem" }}>
+          <label style={labelStyle}>Select a product from your store:</label>
+          {previewProduct && (
+            <p style={{ fontSize: "0.8125rem", color: "#64748b", marginBottom: "0.5rem" }}>
+              Selected: {previewProduct.title} — <Link to="/app/theme-builder" style={{ color: "#3b82f6" }}>Preview in theme builder</Link>
+            </p>
+          )}
+          <div
             style={{
-              padding: "0.5rem 0.75rem",
-              fontSize: "0.8125rem",
-              fontWeight: 500,
-              borderRadius: radius,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+              gap: "0.5rem",
+              maxHeight: 200,
+              overflowY: "auto",
+              padding: "0.5rem",
               border,
+              borderRadius: radius,
               background: "#fff",
-              cursor: "pointer",
-              color: "#374151",
-              whiteSpace: "nowrap",
             }}
           >
-            Import
-          </button>
+            {products.map((product) => (
+              <button
+                key={product.id}
+                type="button"
+                onClick={() => setPreviewProduct(product)}
+                style={{
+                  padding: 0,
+                  border: previewProduct?.id === product.id ? borderActive : border,
+                  borderRadius: radius,
+                  overflow: "hidden",
+                  background: "#fff",
+                  cursor: "pointer",
+                  textAlign: "left",
+                }}
+              >
+                <div
+                  style={{
+                    height: 80,
+                    background: product.imageUrl ? `url(${product.imageUrl}) center/cover` : "#e5e7eb",
+                  }}
+                />
+                <div style={{ padding: "0.35rem 0.5rem", fontSize: "0.75rem", color: "#374151" }}>
+                  {product.title}
+                </div>
+              </button>
+            ))}
+          </div>
+          {products.length === 0 && (
+            <p style={{ fontSize: "0.8125rem", color: "#64748b", margin: "0.5rem 0 0" }}>No products in your store yet.</p>
+          )}
         </div>
-      </div>
+      )}
+
+      {/* Product URL (for non-Shopify sources) */}
+      {productSource !== "shopify" && (
+        <div style={{ marginBottom: "1rem" }}>
+          <label style={labelStyle}>{sourceLabel} product link:</label>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <input
+              type="url"
+              placeholder={`Paste a valid ${sourceLabel} product link`}
+              value={productUrl}
+              onChange={(e) => setProductUrl(e.target.value)}
+              style={{ ...inputStyle, flex: 1 }}
+            />
+            <button
+              type="button"
+              style={{
+                padding: "0.5rem 0.75rem",
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                borderRadius: radius,
+                border,
+                background: "#fff",
+                cursor: "pointer",
+                color: "#374151",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Import
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

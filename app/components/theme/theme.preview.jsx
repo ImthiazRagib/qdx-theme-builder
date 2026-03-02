@@ -31,13 +31,18 @@ const ThemePreview = () => {
         sections,
         selectedGroup,
         selectedSectionName,
+        previewProduct,
     } = useThemeBuilder();
 
     const hero = sections?.heroBanner || {};
-    const heading = hero.heading || "";
+    const heading = previewProduct?.title || hero.heading || "";
     const subheading = hero.subheading || "";
-    const body = hero.body || "";
-    const bannerImageUrl = hero.bannerImageUrl || "";
+    const stripHtml = (html) => (html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    const body = previewProduct
+        ? stripHtml(previewProduct.descriptionHtml).slice(0, 280) + (stripHtml(previewProduct.descriptionHtml).length > 280 ? "…" : "")
+        : hero.body || "";
+    const bodyFull = previewProduct ? stripHtml(previewProduct.descriptionHtml) : hero.body || "";
+    const bannerImageUrl = previewProduct?.images?.[0] || hero.bannerImageUrl || "";
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen((p) => !p);
@@ -411,7 +416,9 @@ const ThemePreview = () => {
                             gap: "1rem",
                         }}
                     >
-                        {Array.from({ length: Math.min(fp.productsToShow || 8, 8) }).map((_, index) => (
+                        {Array.from({ length: Math.min(fp.productsToShow || 8, 8) }).map((_, index) => {
+                            const productImg = previewProduct?.images?.[index];
+                            return (
                             <div
                                 key={index}
                                 style={{
@@ -424,7 +431,9 @@ const ThemePreview = () => {
                                     style={{
                                         height: "5rem",
                                         borderRadius: "0.5rem",
-                                        background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+                                        background: productImg
+                                            ? `url(${productImg}) center/cover`
+                                            : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
                                         marginBottom: "0.6rem",
                                     }}
                                 />
@@ -446,7 +455,8 @@ const ThemePreview = () => {
                                     }}
                                 />
                             </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </div>
@@ -629,13 +639,14 @@ const ThemePreview = () => {
 
     const renderImageWithText = () => {
         const iwt = sections?.imageWithText || {};
+        const imgSrc = previewProduct?.images?.[0] || iwt.imageUrl;
         const imgEl = (
-            <div style={{ flex: 1, minHeight: 200, background: iwt.imageUrl ? `url(${iwt.imageUrl}) center/cover` : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`, borderRadius: "0.5rem" }} />
+            <div style={{ flex: 1, minHeight: 200, background: imgSrc ? `url(${imgSrc}) center/cover` : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`, borderRadius: "0.5rem" }} />
         );
         const textEl = (
             <div style={{ flex: 1, padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.25rem", margin: "0 0 0.5rem 0", color: "#111827" }}>{iwt.heading || "Image with text"}</h3>
-                <p style={{ fontSize: "0.9rem", color: "#4b5563", margin: "0 0 1rem 0", lineHeight: 1.5 }}>{iwt.body || ""}</p>
+                <h3 style={{ fontSize: "1.25rem", margin: "0 0 0.5rem 0", color: "#111827" }}>{previewProduct?.title || iwt.heading || "Image with text"}</h3>
+                <p style={{ fontSize: "0.9rem", color: "#4b5563", margin: "0 0 1rem 0", lineHeight: 1.5 }}>{previewProduct ? stripHtml(previewProduct.descriptionHtml).slice(0, 200) + "…" : (iwt.body || "")}</p>
                 <button type="button" style={{ padding: "0.5rem 1rem", borderRadius: "999px", border: "none", background: primaryColor, color: "white", fontSize: "0.85rem", cursor: "pointer" }}>{iwt.buttonText || "Learn more"}</button>
             </div>
         );
@@ -732,9 +743,11 @@ const ThemePreview = () => {
                             height: "10rem",
                             borderRadius: "0.75rem",
                             backgroundImage:
-                                bannerImageUrl && bannerImageUrl.trim().length > 0
-                                    ? `url(${bannerImageUrl})`
-                                    : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+                                previewProduct?.images?.[0]
+                                    ? `url(${previewProduct.images[0]})`
+                                    : bannerImageUrl
+                                        ? `url(${bannerImageUrl})`
+                                        : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             marginBottom: "0.75rem",
@@ -744,19 +757,36 @@ const ThemePreview = () => {
                         style={{
                             display: "flex",
                             gap: "0.5rem",
+                            flexWrap: "wrap",
                         }}
                     >
-                        {Array.from({ length: 4 }).map((_, index) => (
+                        {(previewProduct?.images?.length ? previewProduct.images.slice(0, 4) : []).map((img, index) => (
                             <div
                                 key={index}
                                 style={{
-                                    flex: 1,
+                                    flex: "1 1 60px",
+                                    minWidth: 60,
                                     height: "3rem",
                                     borderRadius: "0.5rem",
-                                    background: "#e5e7eb",
+                                    backgroundImage: `url(${img})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
                                 }}
                             />
                         ))}
+                        {(!previewProduct?.images?.length || previewProduct.images.length < 4) &&
+                            Array.from({ length: 4 - (previewProduct?.images?.length || 0) }).map((_, index) => (
+                                <div
+                                    key={`p-${index}`}
+                                    style={{
+                                        flex: "1 1 60px",
+                                        minWidth: 60,
+                                        height: "3rem",
+                                        borderRadius: "0.5rem",
+                                        background: "#e5e7eb",
+                                    }}
+                                />
+                            ))}
                     </div>
                 </div>
                 <div id="section-product-details">
@@ -768,7 +798,7 @@ const ThemePreview = () => {
                             color: "#111827",
                         }}
                     >
-                        {sections?.productDetails?.productTitle || "Product name"}
+                        {previewProduct?.title || sections?.productDetails?.productTitle || "Product name"}
                     </h3>
                     <div
                         style={{
@@ -779,15 +809,17 @@ const ThemePreview = () => {
                             marginBottom: "0.8rem",
                         }}
                     />
-                    <p
+                    <div
                         style={{
                             fontSize: "0.9rem",
                             color: "#4b5563",
                             marginBottom: "0.9rem",
+                            lineHeight: 1.5,
+                            whiteSpace: "pre-wrap",
                         }}
                     >
-                        {sections?.productDetails?.productDescription || body}
-                    </p>
+                        {previewProduct ? bodyFull : (sections?.productDetails?.productDescription || body)}
+                    </div>
                     <div
                         style={{
                             display: "flex",

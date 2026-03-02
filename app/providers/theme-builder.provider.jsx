@@ -117,6 +117,7 @@ export default function ThemeBuilderProvider(props) {
   const [selectedSubsectionName, setSelectedSubsectionName] = useState(null);
 
   const [sections, setSections] = useState(defaultSections);
+  const [previewProduct, setPreviewProduct] = useState(null);
 
   const updateSection = (sectionKey, field, value) => {
     setSections((prev) => ({
@@ -157,6 +158,8 @@ export default function ThemeBuilderProvider(props) {
     setSections,
     updateSection,
     updateTestimonialItem,
+    previewProduct,
+    setPreviewProduct,
   };
 
   return (
