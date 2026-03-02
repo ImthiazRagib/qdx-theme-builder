@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useThemeBuilder } from "../../context/theme.context";
 
+// Shopify theme section structure
 const themeSections = [
   {
     title: "Colors",
@@ -11,13 +12,22 @@ const themeSections = [
     ],
   },
   {
+    title: "Header",
+    sections: [{ name: "Logo & navigation" }],
+  },
+  {
     title: "Homepage",
     sections: [
       { name: "Hero Banner" },
       { name: "Featured Products" },
+      { name: "Image with text" },
       { name: "Testimonials" },
       { name: "Newsletter" },
     ],
+  },
+  {
+    title: "Footer",
+    sections: [{ name: "Footer" }],
   },
   {
     title: "Product Page",

@@ -8,12 +8,15 @@ const ThemePreview = () => {
         template,
         primaryColor,
         secondaryColor,
-        heading,
-        subheading,
-        body,
-        bannerImageUrl,
+        sections,
         selectedGroup,
     } = useThemeBuilder();
+
+    const hero = sections?.heroBanner || {};
+    const heading = hero.heading || "";
+    const subheading = hero.subheading || "";
+    const body = hero.body || "";
+    const bannerImageUrl = hero.bannerImageUrl || "";
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen((p) => !p);
@@ -324,40 +327,45 @@ const ThemePreview = () => {
                         gap: "0.75rem",
                     }}
                 >
-                    <button
-                        type="button"
-                        style={{
-                            padding: "0.6rem 1.35rem",
-                            borderRadius: "999px",
-                            border: "none",
-                            background: "#f9fafb",
-                            color: "#111827",
-                            fontSize: "0.85rem",
-                            cursor: "pointer",
-                        }}
-                    >
-                        Shop the collection
-                    </button>
-                    <button
-                        type="button"
-                        style={{
-                            padding: "0.6rem 1.35rem",
-                            borderRadius: "999px",
-                            border: "1px solid rgba(249, 250, 251, 0.7)",
-                            background: "transparent",
-                            color: "white",
-                            fontSize: "0.85rem",
-                            cursor: "pointer",
-                        }}
-                    >
-                        Learn more
-                    </button>
+                        <button
+                                type="button"
+                                style={{
+                                    padding: "0.6rem 1.35rem",
+                                    borderRadius: "999px",
+                                    border: "none",
+                                    background: "#f9fafb",
+                                    color: "#111827",
+                                    fontSize: "0.85rem",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                {hero.primaryCtaText || "Shop the collection"}
+                            </button>
+                            <button
+                                type="button"
+                                style={{
+                                    padding: "0.6rem 1.35rem",
+                                    borderRadius: "999px",
+                                    border: "1px solid rgba(249, 250, 251, 0.7)",
+                                    background: "transparent",
+                                    color: "white",
+                                    fontSize: "0.85rem",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                {hero.secondaryCtaText || "Learn more"}
+                            </button>
                 </div>
             </div>
         );
     };
 
-    const renderFeaturedProducts = () => (
+    const renderFeaturedProducts = () => {
+        const fp = sections?.featuredProducts || {};
+        const fpHeading = fp.heading || heading;
+        const fpSubheading = fp.subheading || subheading;
+        const cols = fp.columnsDesktop || 4;
+        return (
         <div>
             <div
                 style={{
@@ -389,7 +397,7 @@ const ThemePreview = () => {
                         margin: 0,
                     }}
                 >
-                    {heading}
+                    {fpHeading}
                 </h2>
                 <p
                     style={{
@@ -398,7 +406,7 @@ const ThemePreview = () => {
                         maxWidth: "28rem",
                     }}
                 >
-                    {subheading}
+                    {fpSubheading}
                 </p>
             </div>
             <div
@@ -408,13 +416,13 @@ const ThemePreview = () => {
                 }}
             >
                 <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                        gap: "1rem",
-                    }}
-                >
-                    {Array.from({ length: 3 }).map((_, index) => (
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+                    gap: "1rem",
+                }}
+            >
+                {Array.from({ length: Math.min(fp.productsToShow || 8, 8) }).map((_, index) => (
                         <div
                             key={index}
                             style={{
@@ -453,9 +461,15 @@ const ThemePreview = () => {
                 </div>
             </div>
         </div>
-    );
+        );
+    };
 
-    const renderTestimonials = () => (
+    const renderTestimonials = () => {
+        const t = sections?.testimonials || {};
+        const tHeading = t.heading || heading;
+        const tSubheading = t.subheading || subheading;
+        const items = t.items || [];
+        return (
         <div>
             <div
                 style={{
@@ -482,7 +496,7 @@ const ThemePreview = () => {
                         color: "#111827",
                     }}
                 >
-                    {heading}
+                    {tHeading}
                 </h2>
                 <p
                     style={{
@@ -492,7 +506,7 @@ const ThemePreview = () => {
                         maxWidth: "30rem",
                     }}
                 >
-                    {subheading}
+                    {tSubheading}
                 </p>
             </div>
             <div
@@ -504,7 +518,7 @@ const ThemePreview = () => {
                     gap: "1rem",
                 }}
             >
-                {Array.from({ length: 3 }).map((_, index) => (
+                {(items.length ? items : [{ quote: body, author: "" }]).slice(0, 3).map((item, index) => (
                     <div
                         key={index}
                         style={{
@@ -530,25 +544,7 @@ const ThemePreview = () => {
                                     opacity: 0.9,
                                 }}
                             />
-                            <div>
-                                <div
-                                    style={{
-                                        width: "4.5rem",
-                                        height: "0.35rem",
-                                        borderRadius: "999px",
-                                        background: "#d1d5db",
-                                        marginBottom: "0.2rem",
-                                    }}
-                                />
-                                <div
-                                    style={{
-                                        width: "3rem",
-                                        height: "0.3rem",
-                                        borderRadius: "999px",
-                                        background: "#e5e7eb",
-                                    }}
-                                />
-                            </div>
+                            <span style={{ fontSize: "0.8rem", fontWeight: 500 }}>{item.author}</span>
                         </div>
                         <p
                             style={{
@@ -557,15 +553,18 @@ const ThemePreview = () => {
                                 lineHeight: 1.5,
                             }}
                         >
-                            {body}
+                            {item.quote}
                         </p>
                     </div>
                 ))}
             </div>
         </div>
-    );
+        );
+    };
 
-    const renderNewsletter = () => (
+    const renderNewsletter = () => {
+        const n = sections?.newsletter || {};
+        return (
         <div>
             <div
                 style={{
@@ -597,7 +596,7 @@ const ThemePreview = () => {
                         margin: 0,
                     }}
                 >
-                    {heading}
+                    {n.heading || heading}
                 </h2>
                 <p
                     style={{
@@ -606,7 +605,7 @@ const ThemePreview = () => {
                         maxWidth: "30rem",
                     }}
                 >
-                    {subheading}
+                    {n.subheading || subheading}
                 </p>
                 <div
                     style={{
@@ -616,7 +615,7 @@ const ThemePreview = () => {
                     }}
                 >
                     <input
-                        placeholder="Enter your email"
+                        placeholder={n.placeholder || "Enter your email"}
                         style={{
                             flex: 1,
                             padding: "0.55rem 0.75rem",
@@ -637,7 +636,7 @@ const ThemePreview = () => {
                             cursor: "pointer",
                         }}
                     >
-                        Subscribe
+                        {n.buttonText || "Subscribe"}
                     </button>
                 </div>
             </div>
@@ -654,11 +653,45 @@ const ThemePreview = () => {
                         color: "#6b7280",
                     }}
                 >
-                    {body}
+                    {n.body || body}
                 </p>
             </div>
         </div>
-    );
+        );
+    };
+
+    const renderImageWithText = () => {
+        const iwt = sections?.imageWithText || {};
+        const imgEl = (
+            <div style={{ flex: 1, minHeight: 200, background: iwt.imageUrl ? `url(${iwt.imageUrl}) center/cover` : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`, borderRadius: "0.5rem" }} />
+        );
+        const textEl = (
+            <div style={{ flex: 1, padding: "1.5rem" }}>
+                <h3 style={{ fontSize: "1.25rem", margin: "0 0 0.5rem 0", color: "#111827" }}>{iwt.heading || "Image with text"}</h3>
+                <p style={{ fontSize: "0.9rem", color: "#4b5563", margin: "0 0 1rem 0", lineHeight: 1.5 }}>{iwt.body || ""}</p>
+                <button type="button" style={{ padding: "0.5rem 1rem", borderRadius: "999px", border: "none", background: primaryColor, color: "white", fontSize: "0.85rem", cursor: "pointer" }}>{iwt.buttonText || "Learn more"}</button>
+            </div>
+        );
+        return (
+            <div style={{ padding: "1.5rem 1.75rem", background: "#fff", display: "flex", gap: "1.5rem", alignItems: "stretch" }}>
+                {iwt.imagePosition === "right" ? [textEl, imgEl] : [imgEl, textEl]}
+            </div>
+        );
+    };
+
+    const renderFooter = () => {
+        const f = sections?.footer || {};
+        return (
+            <div style={{ padding: "1.5rem 1.75rem", background: "#111827", color: "#f9fafb" }}>
+                <div style={{ display: "flex", gap: "1.5rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+                    {(f.menuItems || []).map((item, i) => (
+                        <a key={i} href={item.link} style={{ fontSize: "0.85rem", color: "#9ca3af" }}>{item.title}</a>
+                    ))}
+                </div>
+                <p style={{ margin: 0, fontSize: "0.8rem", color: "#6b7280" }}>{f.copyrightText || "© 2025 Your Store"}</p>
+            </div>
+        );
+    };
 
     const renderHomepage = () => (
         <div style={containerStyle}>
@@ -673,8 +706,10 @@ const ThemePreview = () => {
             >
                 {renderHero()}
                 {renderFeaturedProducts()}
+                {renderImageWithText()}
                 {renderTestimonials()}
                 {renderNewsletter()}
+                {renderFooter()}
             </div>
         </div>
     );
@@ -754,15 +789,16 @@ const ThemePreview = () => {
                     </div>
                 </div>
                 <div>
-                    <div
+                    <h3
                         style={{
-                            width: "60%",
-                            height: "0.6rem",
-                            borderRadius: "999px",
-                            background: "#111827",
-                            marginBottom: "0.35rem",
+                            fontSize: "1.1rem",
+                            fontWeight: 600,
+                            margin: "0 0 0.35rem 0",
+                            color: "#111827",
                         }}
-                    />
+                    >
+                        {sections?.productDetails?.productTitle || "Product name"}
+                    </h3>
                     <div
                         style={{
                             width: "40%",
@@ -779,7 +815,7 @@ const ThemePreview = () => {
                             marginBottom: "0.9rem",
                         }}
                     >
-                        {body}
+                        {sections?.productDetails?.productDescription || body}
                     </p>
                     <div
                         style={{
