@@ -32,6 +32,7 @@ const ThemePreview = () => {
         selectedGroup,
         selectedSectionName,
         previewProduct,
+        productGalleryImages,
     } = useThemeBuilder();
 
     const hero = sections?.heroBanner || {};
@@ -42,7 +43,12 @@ const ThemePreview = () => {
         ? stripHtml(previewProduct.descriptionHtml).slice(0, 280) + (stripHtml(previewProduct.descriptionHtml).length > 280 ? "…" : "")
         : hero.body || "";
     const bodyFull = previewProduct ? stripHtml(previewProduct.descriptionHtml) : hero.body || "";
-    const bannerImageUrl = previewProduct?.images?.[0] || hero.bannerImageUrl || "";
+    const galleryImages = (productGalleryImages?.length ? productGalleryImages : previewProduct?.images) || [];
+    const bannerImageUrl = galleryImages[0] || hero.bannerImageUrl || "";
+    const productDetails = sections?.productDetails || {};
+    const productTitle = productDetails.productTitle || previewProduct?.title || "Product name";
+    const productPrice = productDetails.productPrice || previewProduct?.price || "$29.00";
+    const productDescription = productDetails.productDescription || bodyFull || body;
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen((p) => !p);
@@ -417,7 +423,7 @@ const ThemePreview = () => {
                         }}
                     >
                         {Array.from({ length: Math.min(fp.productsToShow || 8, 8) }).map((_, index) => {
-                            const productImg = previewProduct?.images?.[index];
+                            const productImg = galleryImages[index];
                             return (
                             <div
                                 key={index}
@@ -743,8 +749,8 @@ const ThemePreview = () => {
                             height: "10rem",
                             borderRadius: "0.75rem",
                             backgroundImage:
-                                previewProduct?.images?.[0]
-                                    ? `url(${previewProduct.images[0]})`
+                                galleryImages[0]
+                                    ? `url(${galleryImages[0]})`
                                     : bannerImageUrl
                                         ? `url(${bannerImageUrl})`
                                         : `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
@@ -760,7 +766,7 @@ const ThemePreview = () => {
                             flexWrap: "wrap",
                         }}
                     >
-                        {(previewProduct?.images?.length ? previewProduct.images.slice(0, 4) : []).map((img, index) => (
+                        {(galleryImages.length ? galleryImages.slice(0, 4) : []).map((img, index) => (
                             <div
                                 key={index}
                                 style={{
@@ -774,8 +780,8 @@ const ThemePreview = () => {
                                 }}
                             />
                         ))}
-                        {(!previewProduct?.images?.length || previewProduct.images.length < 4) &&
-                            Array.from({ length: 4 - (previewProduct?.images?.length || 0) }).map((_, index) => (
+                        {(galleryImages.length < 4) &&
+                            Array.from({ length: 4 - galleryImages.length }).map((_, index) => (
                                 <div
                                     key={`p-${index}`}
                                     style={{
@@ -798,17 +804,18 @@ const ThemePreview = () => {
                             color: "#111827",
                         }}
                     >
-                        {previewProduct?.title || sections?.productDetails?.productTitle || "Product name"}
+                        {productTitle}
                     </h3>
                     <div
                         style={{
-                            width: "40%",
-                            height: "0.45rem",
-                            borderRadius: "999px",
-                            background: primaryColor,
+                            fontSize: "1rem",
+                            fontWeight: 600,
+                            color: primaryColor,
                             marginBottom: "0.8rem",
                         }}
-                    />
+                    >
+                        {productPrice}
+                    </div>
                     <div
                         style={{
                             fontSize: "0.9rem",
@@ -818,7 +825,7 @@ const ThemePreview = () => {
                             whiteSpace: "pre-wrap",
                         }}
                     >
-                        {previewProduct ? bodyFull : (sections?.productDetails?.productDescription || body)}
+                        {productDescription}
                     </div>
                     <div
                         style={{

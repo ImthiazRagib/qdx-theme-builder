@@ -33,7 +33,7 @@ const inputStyle = {
 
 export default function SelectProductSource() {
   const { products = [] } = useLoaderData() ?? {};
-  const { setPreviewProduct, previewProduct } = useThemeBuilder();
+  const { setPreviewProduct, setProductGalleryImages, syncProductDetails, previewProduct } = useThemeBuilder();
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const [storeLanguage, setStoreLanguage] = useState("english");
   const [researchContext, setResearchContext] = useState("none");
@@ -354,7 +354,11 @@ export default function SelectProductSource() {
               <button
                 key={product.id}
                 type="button"
-                onClick={() => setPreviewProduct(product)}
+                onClick={() => {
+                  setPreviewProduct(product);
+                  setProductGalleryImages(product.images || []);
+                  syncProductDetails(product);
+                }}
                 style={{
                   padding: 0,
                   border: previewProduct?.id === product.id ? borderActive : border,

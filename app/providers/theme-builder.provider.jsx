@@ -118,6 +118,7 @@ export default function ThemeBuilderProvider(props) {
 
   const [sections, setSections] = useState(defaultSections);
   const [previewProduct, setPreviewProduct] = useState(null);
+  const [productGalleryImages, setProductGalleryImages] = useState([]);
 
   const updateSection = (sectionKey, field, value) => {
     setSections((prev) => ({
@@ -125,6 +126,19 @@ export default function ThemeBuilderProvider(props) {
       [sectionKey]: {
         ...prev[sectionKey],
         [field]: value,
+      },
+    }));
+  };
+
+  const syncProductDetails = (product) => {
+    const stripHtml = (html) => (html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    setSections((prev) => ({
+      ...prev,
+      productDetails: {
+        ...prev.productDetails,
+        productTitle: product?.title || "",
+        productPrice: product?.price || "",
+        productDescription: stripHtml(product?.descriptionHtml || "") || "",
       },
     }));
   };
@@ -157,9 +171,12 @@ export default function ThemeBuilderProvider(props) {
     sections,
     setSections,
     updateSection,
+    syncProductDetails,
     updateTestimonialItem,
     previewProduct,
     setPreviewProduct,
+    productGalleryImages,
+    setProductGalleryImages,
   };
 
   return (

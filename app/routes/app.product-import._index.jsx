@@ -12,6 +12,12 @@ const PRODUCTS_QUERY = `#graphql
         featuredImage {
           url
         }
+        priceRangeV2 {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
         media(first: 20) {
           nodes {
             ... on MediaImage {
@@ -37,6 +43,10 @@ export const loader = async ({ request }) => {
         const mediaUrls = (p.media?.nodes ?? []).map((n) => n.image?.url).filter(Boolean);
         const imageUrl = p.featuredImage?.url ?? mediaUrls[0] ?? null;
         const images = mediaUrls.length > 0 ? mediaUrls : (imageUrl ? [imageUrl] : []);
+        const price = p.priceRangeV2?.minVariantPrice;
+        const priceStr = price
+          ? `${price.currencyCode === "USD" ? "$" : price.currencyCode + " "}${Number(price.amount).toFixed(2)}`
+          : null;
         return {
           id: p.id,
           title: p.title,
@@ -44,6 +54,7 @@ export const loader = async ({ request }) => {
           descriptionHtml: p.descriptionHtml || "",
           imageUrl,
           images,
+          price: priceStr,
         };
       });
     }
