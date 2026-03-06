@@ -3,6 +3,7 @@ const radius = "6px";
 
 export default function BundleDealsTabs({ activeTab, onTabChange }) {
   const tabs = [
+    { id: "create", label: "Create Bundle" },
     { id: "dashboard", label: "Dashboard" },
     { id: "analytics", label: "Analytics" },
   ];
