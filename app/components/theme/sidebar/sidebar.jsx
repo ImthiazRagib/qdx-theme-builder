@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { to: "/app/additional", label: "Additional page" },
   { to: "/app/product-import", label: "Product import" },
   { to: "/app/settings", label: "Settings" },
-  { to: "/app/help", label: "Help" },
+  { to: "/app/help", label: "Support" },
 ];
 
 export default function Sidebar({ open, onClose, previewMode = false }) {

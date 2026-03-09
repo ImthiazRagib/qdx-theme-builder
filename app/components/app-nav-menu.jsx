@@ -15,7 +15,7 @@ export default function AppNavMenu() {
       <Link to="/app/bundle-deals">Bundle Deals</Link>
       <Link to="/app/ai-photos">AI Photos</Link>
       <Link to="/app/settings">Settings</Link>
-      <Link to="/app/help">Help</Link>
+      <Link to="/app/help">Support</Link>
     </s-app-nav>
   );
 }
