@@ -108,10 +108,10 @@ export const COMPONENT_LIBRARY = [
     label: 'Newsletter',
     category: 'Marketing',
     defaults: {
-      heading: 'Stay in the loop',
-      body: 'Subscribe for offers, product drops, and store updates.',
-      placeholder: 'Enter your email',
-      buttonText: 'Subscribe',
+      heading: 'Stay Connected',
+      body: 'Subscribe to get special offers and updates.',
+      placeholder: 'Email address',
+      buttonText: '',
     },
   },
   {
@@ -122,6 +122,18 @@ export const COMPONENT_LIBRARY = [
       copyright: '© 2026 Your Store',
       logoUrl: '',
       links: 'Privacy Policy, Terms of Service, Contact',
+    },
+  },
+  {
+    type: 'social-links',
+    label: 'Social Icons',
+    category: 'Footer',
+    defaults: {
+      heading: 'Follow us',
+      body: 'Stay connected on social media.',
+      facebookUrl: 'https://facebook.com/yourbrand',
+      instagramUrl: 'https://instagram.com/yourbrand',
+      twitterUrl: 'https://twitter.com/yourbrand',
     },
   },
 ];
@@ -183,6 +195,16 @@ export const fieldConfigByType = {
     { key: 'body', label: 'Body', type: 'textarea' },
     { key: 'placeholder', label: 'Input Placeholder', type: 'text' },
     { key: 'buttonText', label: 'Button Text', type: 'text' },
+    { key: 'facebookUrl', label: 'Facebook URL', type: 'text' },
+    { key: 'instagramUrl', label: 'Instagram URL', type: 'text' },
+    { key: 'twitterUrl', label: 'Twitter URL', type: 'text' },
+  ],
+  'social-links': [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'body', label: 'Body', type: 'textarea' },
+    { key: 'facebookUrl', label: 'Facebook URL', type: 'text' },
+    { key: 'instagramUrl', label: 'Instagram URL', type: 'text' },
+    { key: 'twitterUrl', label: 'Twitter URL', type: 'text' },
   ],
   footer: [
     { key: 'copyright', label: 'Copyright', type: 'text' },

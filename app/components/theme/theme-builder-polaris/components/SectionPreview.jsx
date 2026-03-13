@@ -245,19 +245,172 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
 
   if (type === 'newsletter') {
     return (
-      <div style={{ padding: 32, background: resolveBg(primary) }}>
-        <h3 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0, color: resolveText(textOnPrimary) }}>{settings.heading}</h3>
-        <p style={{ marginTop: 12, maxWidth: 576, fontSize: 14, color: resolveText(textOnPrimary), opacity: 0.9 }}>{settings.body}</p>
-        <div style={{ marginTop: 20, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+      <div
+        style={{
+          padding: 24,
+          background: resolveBg('#ffffff'),
+          borderBottom: '1px solid #e4e4e7',
+        }}
+      >
+        <h3
+          style={{
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            margin: 0,
+            color: resolveText(TEXT_ON_LIGHT),
+          }}
+        >
+          {settings.heading}
+        </h3>
+        <p
+          style={{
+            marginTop: 8,
+            maxWidth: 420,
+            fontSize: 13,
+            color: resolveText(TEXT_MUTED),
+          }}
+        >
+          {settings.body}
+        </p>
+        <div
+          style={{
+            marginTop: 16,
+            display: 'flex',
+            gap: 8,
+            alignItems: 'stretch',
+            maxWidth: 360,
+          }}
+        >
           <input
             disabled
-            style={{ flex: 1, minWidth: 200, height: 48, padding: '0 16px', border: '1px solid rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.15)', color: resolveText(textOnPrimary) }}
-            value={settings.placeholder}
+            style={{
+              flex: 1,
+              minWidth: 0,
+              height: 40,
+              padding: '0 12px',
+              borderRadius: 999,
+              border: '1px solid #e5e7eb',
+              background: '#f9fafb',
+              color: '#6b7280',
+              fontSize: 13,
+            }}
+            placeholder={settings.placeholder}
             readOnly
           />
-          <button style={{ padding: '12px 20px', fontSize: 14, fontWeight: 600, background: '#ffffff', color: primary, border: 'none', cursor: 'pointer' }}>
-            {settings.buttonText}
+          <button
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 10,
+              border: 'none',
+              background: '#111827',
+              color: '#ffffff',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+              lineHeight: 0,
+              cursor: 'pointer',
+            }}
+            aria-label="Subscribe"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="3"
+                y="4"
+                width="14"
+                height="12"
+                rx="2"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path
+                d="M4 6.5L10 10.5L16 6.5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
+        </div>
+        <div
+          style={{
+            marginTop: 14,
+            display: 'flex',
+            gap: 10,
+            alignItems: 'center',
+          }}
+        >
+          {settings.facebookUrl && String(settings.facebookUrl).trim().length > 0 && (
+            <a
+              href={settings.facebookUrl}
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 999,
+                border: '1px solid #e5e7eb',
+                background: '#111827',
+                color: '#ffffff',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 13,
+                textDecoration: 'none',
+              }}
+              aria-label="Facebook"
+            >
+              f
+            </a>
+          )}
+          {settings.instagramUrl && String(settings.instagramUrl).trim().length > 0 && (
+            <a
+              href={settings.instagramUrl}
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 999,
+                border: '1px solid #e5e7eb',
+                background: '#111827',
+                color: '#ffffff',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 13,
+                textDecoration: 'none',
+              }}
+              aria-label="Instagram"
+            >
+              IG
+            </a>
+          )}
+          {settings.twitterUrl && String(settings.twitterUrl).trim().length > 0 && (
+            <a
+              href={settings.twitterUrl}
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 999,
+                border: '1px solid #e5e7eb',
+                background: '#111827',
+                color: '#ffffff',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 13,
+                textDecoration: 'none',
+              }}
+              aria-label="Twitter"
+            >
+              X
+            </a>
+          )}
         </div>
       </div>
     );
@@ -281,6 +434,116 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               <span key={item}>{item}</span>
             ))}
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === 'social-links') {
+    const hasFacebook = settings.facebookUrl && String(settings.facebookUrl).trim().length > 0;
+    const hasInstagram = settings.instagramUrl && String(settings.instagramUrl).trim().length > 0;
+    const hasTwitter = settings.twitterUrl && String(settings.twitterUrl).trim().length > 0;
+
+    return (
+      <div
+        style={{
+          padding: 24,
+          background: resolveBg('#ffffff'),
+          borderTop: '1px solid #e4e4e7',
+          borderBottom: '1px solid #e4e4e7',
+        }}
+      >
+        <h3
+          style={{
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            margin: 0,
+            color: resolveText(TEXT_ON_LIGHT),
+          }}
+        >
+          {settings.heading}
+        </h3>
+        <p
+          style={{
+            marginTop: 8,
+            maxWidth: 420,
+            fontSize: 13,
+            color: resolveText(TEXT_MUTED),
+          }}
+        >
+          {settings.body}
+        </p>
+        <div
+          style={{
+            marginTop: 16,
+            display: 'flex',
+            gap: 10,
+            alignItems: 'center',
+          }}
+        >
+          {hasFacebook && (
+            <a
+              href={settings.facebookUrl}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 999,
+                border: '1px solid #e5e7eb',
+                background: '#111827',
+                color: '#ffffff',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 14,
+                textDecoration: 'none',
+              }}
+              aria-label="Facebook"
+            >
+              f
+            </a>
+          )}
+          {hasInstagram && (
+            <a
+              href={settings.instagramUrl}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 999,
+                border: '1px solid #e5e7eb',
+                background: '#111827',
+                color: '#ffffff',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 14,
+                textDecoration: 'none',
+              }}
+              aria-label="Instagram"
+            >
+              IG
+            </a>
+          )}
+          {hasTwitter && (
+            <a
+              href={settings.twitterUrl}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 999,
+                border: '1px solid #e5e7eb',
+                background: '#111827',
+                color: '#ffffff',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 14,
+                textDecoration: 'none',
+              }}
+              aria-label="Twitter"
+            >
+              X
+            </a>
+          )}
         </div>
       </div>
     );
