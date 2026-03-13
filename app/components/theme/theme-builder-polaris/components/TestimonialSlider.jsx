@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Icon } from '@shopify/polaris';
 import { ChevronLeftIcon, ChevronRightIcon } from '@shopify/polaris-icons';
 
 export function TestimonialSlider({ heading, testimonials, resolveBg, resolveText, TEXT_MUTED, TEXT_ON_LIGHT }) {
@@ -27,18 +28,44 @@ export function TestimonialSlider({ heading, testimonials, resolveBg, resolveTex
           <button
             type="button"
             onClick={() => setActiveIndex((i) => (i - 1 + count) % count)}
-            style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', border: '1px solid #e4e4e7', background: '#fff', padding: 8, cursor: 'pointer' }}
+            style={{
+              position: 'absolute',
+              left: 8,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              border: '1px solid #e4e4e7',
+              background: '#fff',
+              padding: 6,
+              borderRadius: 999,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
             title="Previous"
           >
-            <ChevronLeftIcon />
+            <Icon source={ChevronLeftIcon} />
           </button>
           <button
             type="button"
             onClick={() => setActiveIndex((i) => (i + 1) % count)}
-            style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', border: '1px solid #e4e4e7', background: '#fff', padding: 8, cursor: 'pointer' }}
+            style={{
+              position: 'absolute',
+              right: 8,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              border: '1px solid #e4e4e7',
+              background: '#fff',
+              padding: 6,
+              borderRadius: 999,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
             title="Next"
           >
-            <ChevronRightIcon />
+            <Icon source={ChevronRightIcon} />
           </button>
           <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center', gap: 8 }}>
             {list.map((_, i) => (
