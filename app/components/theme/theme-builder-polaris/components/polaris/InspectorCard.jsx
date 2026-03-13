@@ -5,12 +5,36 @@ import { FieldRenderer } from './FieldRenderer';
 import { fieldConfigByType } from '../../config/constants';
 import { generateSectionMarkup } from '../../libs/methods';
 
-export function InspectorCard({ selectedSection, updateSetting, updateStyleOverride, applyThemeToSection, clearStyleOverrides }) {
+export function InspectorCard({
+  selectedSection,
+  updateSetting,
+  updateStyleOverride,
+  applyThemeToSection,
+  clearStyleOverrides,
+  pageView = 'home',
+  onPageViewChange,
+}) {
   if (!selectedSection) {
     return (
       <Card>
         <BlockStack gap="300">
           <span style={{ fontWeight: 600 }}>Inspector</span>
+          <InlineStack gap="200">
+            <Button
+              size="slim"
+              variant={pageView === 'home' ? 'primary' : 'secondary'}
+              onClick={() => onPageViewChange?.('home')}
+            >
+              Home page
+            </Button>
+            <Button
+              size="slim"
+              variant={pageView === 'product' ? 'primary' : 'secondary'}
+              onClick={() => onPageViewChange?.('product')}
+            >
+              Product page
+            </Button>
+          </InlineStack>
           <div style={{ padding: 32, textAlign: 'center', color: 'var(--p-color-text-subdued)', border: '1px dashed var(--p-color-border)' }}>
             Select a section to edit its fields.
           </div>
@@ -25,6 +49,22 @@ export function InspectorCard({ selectedSection, updateSetting, updateStyleOverr
     <Card>
       <BlockStack gap="400">
         <span style={{ fontWeight: 600 }}>Inspector</span>
+        <InlineStack gap="200">
+          <Button
+            size="slim"
+            variant={pageView === 'home' ? 'primary' : 'secondary'}
+            onClick={() => onPageViewChange?.('home')}
+          >
+            Home page
+          </Button>
+          <Button
+            size="slim"
+            variant={pageView === 'product' ? 'primary' : 'secondary'}
+            onClick={() => onPageViewChange?.('product')}
+          >
+            Product page
+          </Button>
+        </InlineStack>
         <div style={{ padding: 16, background: 'var(--p-color-bg-surface-secondary)', borderRadius: 8 }}>
           <span style={{ fontWeight: 600, display: 'block' }}>{selectedSection.label}</span>
           <span style={{ fontSize: 12, color: 'var(--p-color-text-subdued)' }}>{selectedSection.type}</span>

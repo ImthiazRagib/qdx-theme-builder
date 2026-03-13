@@ -108,6 +108,127 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
     );
   }
 
+  if (type === 'product-page') {
+    const layout = settings.layout || 'gallery-left';
+    const images = Array.isArray(settings.images) ? settings.images.filter(Boolean) : [];
+    const primaryImage = images[0] || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200&auto=format&fit=crop';
+    const thumbs = images.slice(1);
+    const showThumbnails = settings.showThumbnails !== false && thumbs.length > 0;
+    const showBuyButtons = settings.showBuyButtons !== false;
+
+    const baseGrid = {
+      display: 'grid',
+      gap: 24,
+      padding: 32,
+      borderBottom: '1px solid #e4e4e7',
+      background: resolveBg('#ffffff'),
+      gridTemplateColumns: layout === 'gallery-stacked' ? 'minmax(0, 1.3fr) minmax(0, 1.3fr)' : 'minmax(0, 1.4fr) minmax(0, 1.2fr)',
+      alignItems: 'flex-start',
+    };
+
+    const galleryFirst = layout === 'gallery-right' ? { order: 2 } : { order: 1 };
+    const detailsFirst = layout === 'gallery-right' ? { order: 1 } : { order: 2 };
+
+    return (
+      <div style={baseGrid}>
+        <div style={{ ...galleryFirst, display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div
+            style={{
+              borderRadius: 16,
+              overflow: 'hidden',
+              border: '1px solid #e4e4e7',
+              background: '#f4f4f5',
+            }}
+          >
+            <img
+              src={primaryImage}
+              alt={settings.title}
+              style={{ width: '100%', height: 380, objectFit: 'cover', display: 'block' }}
+            />
+          </div>
+          {showThumbnails && (
+            <div style={{ display: 'flex', gap: 8, overflowX: 'auto' }}>
+              {thumbs.map((src, idx) => (
+                <div
+                  key={src || idx}
+                  style={{
+                    flex: '0 0 72px',
+                    height: 72,
+                    borderRadius: 10,
+                    overflow: 'hidden',
+                    border: '1px solid #e4e4e7',
+                    background: '#f4f4f5',
+                  }}
+                >
+                  {src ? (
+                    <img
+                      src={src}
+                      alt=""
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div style={{ ...detailsFirst, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <h1 style={{ fontSize: '1.75rem', margin: 0, fontWeight: 600, color: resolveText(TEXT_ON_LIGHT) }}>
+            {settings.title}
+          </h1>
+          <p style={{ fontSize: 18, fontWeight: 600, margin: 0, color: resolveText(TEXT_ON_LIGHT) }}>
+            {settings.price}
+          </p>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 14,
+              lineHeight: 1.7,
+              color: resolveText(TEXT_MUTED),
+              maxWidth: 520,
+            }}
+          >
+            {settings.description}
+          </p>
+
+          {showBuyButtons && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 4 }}>
+              <button
+                style={{
+                  padding: '12px 20px',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  borderRadius: 999,
+                  border: 'none',
+                  background: primary,
+                  color: textOnPrimary,
+                  cursor: 'pointer',
+                }}
+              >
+                Add to cart
+              </button>
+              <button
+                style={{
+                  padding: '12px 20px',
+                  fontSize: 14,
+                  fontWeight: 500,
+                  borderRadius: 999,
+                  border: '1px solid #e4e4e7',
+                  background: '#ffffff',
+                  color: resolveText(TEXT_ON_LIGHT),
+                  cursor: 'pointer',
+                }}
+              >
+                Buy now
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   if (type === 'testimonial') {
     const testimonials = Array.isArray(settings.testimonials) ? settings.testimonials : [{ quote: settings.quote || '', author: settings.author || '' }];
     return (

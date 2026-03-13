@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Select, Checkbox, Button } from '@shopify/polaris';
+import { TextField, Select, Checkbox, Button, InlineStack, BlockStack } from '@shopify/polaris';
 import { DeleteIcon, PlusIcon } from '@shopify/polaris-icons';
 
 export function FieldRenderer({ field, value, onChange }) {
@@ -51,6 +51,93 @@ export function FieldRenderer({ field, value, onChange }) {
           </div>
         ))}
         <Button variant="secondary" icon={PlusIcon} onClick={() => onChange([...list, { quote: '', author: '' }])}>Add testimonial</Button>
+      </div>
+    );
+  }
+  if (field.type === 'image-list') {
+    const list = Array.isArray(value) ? value : [];
+    const handleChangeAt = (index, url) => {
+      const next = [...list];
+      next[index] = url;
+      onChange(next);
+    };
+    const handleRemoveAt = (index) => {
+      const next = [...list];
+      next.splice(index, 1);
+      onChange(next);
+    };
+    const handleMove = (index, direction) => {
+      const nextIndex = direction === 'up' ? index - 1 : index + 1;
+      if (nextIndex < 0 || nextIndex >= list.length) return;
+      const next = [...list];
+      [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
+      onChange(next);
+    };
+
+    return (
+      <div>
+        <p style={{ marginBottom: 8, fontWeight: 500 }}>{field.label}</p>
+        <BlockStack gap="200">
+          {list.map((url, i) => (
+            <div
+              key={i}
+              style={{
+                border: '1px solid var(--p-color-border)',
+                borderRadius: 8,
+                padding: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 8,
+              }}
+            >
+              <TextField
+                label={`Image ${i + 1}`}
+                labelHidden
+                type="url"
+                value={url || ''}
+                onChange={(v) => handleChangeAt(i, v)}
+                placeholder="https://..."
+              />
+              <InlineStack gap="100" align="space-between" blockAlign="center">
+                <InlineStack gap="100">
+                  <Button
+                    size="micro"
+                    disabled={i === 0}
+                    onClick={() => handleMove(i, 'up')}
+                    accessibilityLabel="Move up"
+                  >
+                    Move up
+                  </Button>
+                  <Button
+                    size="micro"
+                    disabled={i === list.length - 1}
+                    onClick={() => handleMove(i, 'down')}
+                    accessibilityLabel="Move down"
+                  >
+                    Move down
+                  </Button>
+                </InlineStack>
+                <Button
+                  size="micro"
+                  variant="plain"
+                  tone="critical"
+                  icon={DeleteIcon}
+                  onClick={() => handleRemoveAt(i)}
+                  accessibilityLabel="Remove image"
+                />
+              </InlineStack>
+            </div>
+          ))}
+        </BlockStack>
+        <div style={{ marginTop: 8 }}>
+          <Button
+            variant="secondary"
+            icon={PlusIcon}
+            onClick={() => onChange([...list, ''])}
+          >
+            Add image
+          </Button>
+        </div>
       </div>
     );
   }

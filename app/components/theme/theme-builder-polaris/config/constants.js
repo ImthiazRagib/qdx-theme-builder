@@ -73,6 +73,24 @@ export const COMPONENT_LIBRARY = [
     },
   },
   {
+    type: 'product-page',
+    label: 'Product Page',
+    category: 'Commerce',
+    defaults: {
+      layout: 'gallery-left',
+      title: 'Product title',
+      price: '$129.00',
+      description: 'Use this section to highlight your product features, materials, and sizing.',
+      images: [
+        'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1514996937319-344454492b37?q=80&w=1200&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop',
+      ],
+      showThumbnails: true,
+      showBuyButtons: true,
+    },
+  },
+  {
     type: 'testimonial',
     label: 'Testimonials',
     category: 'Social Proof',
@@ -146,6 +164,15 @@ export const fieldConfigByType = {
     { key: 'heading', label: 'Heading', type: 'text' },
     { key: 'columns', label: 'Columns', type: 'number' },
     { key: 'productsToShow', label: 'Products To Show', type: 'number' },
+  ],
+  'product-page': [
+    { key: 'layout', label: 'Layout', type: 'select', options: ['gallery-left', 'gallery-right', 'gallery-stacked'] },
+    { key: 'title', label: 'Title', type: 'text' },
+    { key: 'price', label: 'Price', type: 'text' },
+    { key: 'description', label: 'Description', type: 'textarea' },
+    { key: 'images', label: 'Images', type: 'image-list' },
+    { key: 'showThumbnails', label: 'Show thumbnails', type: 'boolean' },
+    { key: 'showBuyButtons', label: 'Show buy buttons', type: 'boolean' },
   ],
   testimonial: [
     { key: 'heading', label: 'Heading', type: 'text' },

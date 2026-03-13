@@ -18,8 +18,22 @@ export function ThemeCreatorPolaris() {
   const [selectedId, setSelectedId] = useState(null);
   const [draggedId, setDraggedId] = useState(null);
   const [viewMode, setViewMode] = useState('preview');
+  const [pageView, setPageView] = useState('home');
 
-  const selectedSection = useMemo(() => sections.find((s) => s.id === selectedId) || sections[0] || null, [sections, selectedId]);
+  const filteredSections = useMemo(() => {
+    if (pageView === 'product') {
+      return sections.filter((s) => s.type === 'product-page');
+    }
+    // home view shows everything except dedicated product page sections
+    return sections.filter((s) => s.type !== 'product-page');
+  }, [sections, pageView]);
+
+  const effectiveSections = filteredSections.length > 0 ? filteredSections : sections;
+
+  const selectedSection = useMemo(
+    () => effectiveSections.find((s) => s.id === selectedId) || effectiveSections[0] || null,
+    [effectiveSections, selectedId],
+  );
 
   const addSection = (component) => {
     const next = createInstance(component);
@@ -104,7 +118,7 @@ export function ThemeCreatorPolaris() {
             viewMode={viewMode}
             setViewMode={setViewMode}
             liquidTemplate={liquidTemplate}
-            sections={sections}
+            sections={effectiveSections}
             themeColors={themeColors}
           />
         </div>
@@ -119,10 +133,10 @@ export function ThemeCreatorPolaris() {
           <div>
             <BlockStack gap="400">
               <ThemeColorsCard themeColors={themeColors} setThemeColors={setThemeColors} />
-              <ComponentLibraryCard addSection={addSection} />
+              <ComponentLibraryCard addSection={addSection} mode={pageView === 'product' ? 'product' : 'home'} />
               <PageStructureCard
                 mode="structure"
-                sections={sections}
+                sections={effectiveSections}
                 selectedSection={selectedSection}
                 selectedId={selectedId}
                 themeColors={themeColors}
@@ -144,6 +158,8 @@ export function ThemeCreatorPolaris() {
               updateStyleOverride={updateStyleOverride}
               applyThemeToSection={applyThemeToSection}
               clearStyleOverrides={clearStyleOverrides}
+              pageView={pageView}
+              onPageViewChange={setPageView}
             />
           </div>
           <div
@@ -155,7 +171,7 @@ export function ThemeCreatorPolaris() {
           >
             <PageStructureCard
               mode="preview"
-              sections={sections}
+              sections={effectiveSections}
               selectedSection={selectedSection}
               selectedId={selectedId}
               themeColors={themeColors}
