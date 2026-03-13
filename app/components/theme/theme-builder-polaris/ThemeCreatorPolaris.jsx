@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Page, Layout, BlockStack } from '@shopify/polaris';
+import { Page, BlockStack } from '@shopify/polaris';
 import { createInstance, generateSectionMarkup, generateJsonTemplate, getContrastColor } from './libs/methods';
 import { COMPONENT_LIBRARY, DEFAULT_THEME, TEXT_ON_LIGHT } from './config/constants';
 import { ThemeColorsCard, ComponentLibraryCard, Toolbar, PageStructureCard, InspectorCard } from './components/polaris';
@@ -99,42 +99,71 @@ export function ThemeCreatorPolaris() {
         title="Liquid Section Editor"
         subtitle="Drag sections top to bottom, edit settings, and export template-ready code."
       >
-      <div style={{ marginBottom: 16 }}>
-        <Toolbar viewMode={viewMode} setViewMode={setViewMode} liquidTemplate={liquidTemplate} sections={sections} themeColors={themeColors} />
-      </div>
-      <Layout>
-        <Layout.Section variant="oneThird">
-          <BlockStack gap="400">
-            <ThemeColorsCard themeColors={themeColors} setThemeColors={setThemeColors} />
-            <ComponentLibraryCard addSection={addSection} />
-          </BlockStack>
-        </Layout.Section>
-        <Layout.Section variant="oneThird">
-          <PageStructureCard
-            sections={sections}
-            selectedSection={selectedSection}
-            selectedId={selectedId}
-            themeColors={themeColors}
+        <div style={{ marginBottom: 16 }}>
+          <Toolbar
             viewMode={viewMode}
+            setViewMode={setViewMode}
             liquidTemplate={liquidTemplate}
-            jsonTemplate={jsonTemplate}
-            setSelectedId={setSelectedId}
-            onDragStart={onDragStart}
-            onDrop={onDrop}
-            moveSection={moveSection}
-            removeSection={removeSection}
+            sections={sections}
+            themeColors={themeColors}
           />
-        </Layout.Section>
-        <Layout.Section variant="oneThird">
-          <InspectorCard
-            selectedSection={selectedSection}
-            updateSetting={updateSetting}
-            updateStyleOverride={updateStyleOverride}
-            applyThemeToSection={applyThemeToSection}
-            clearStyleOverrides={clearStyleOverrides}
-          />
-        </Layout.Section>
-      </Layout>
+        </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(260px, 320px) minmax(280px, 360px) minmax(0, 1.6fr)',
+            gap: 16,
+            alignItems: 'flex-start',
+          }}
+        >
+          <div>
+            <BlockStack gap="400">
+              <ThemeColorsCard themeColors={themeColors} setThemeColors={setThemeColors} />
+              <ComponentLibraryCard addSection={addSection} />
+              <PageStructureCard
+                mode="structure"
+                sections={sections}
+                selectedSection={selectedSection}
+                selectedId={selectedId}
+                themeColors={themeColors}
+                viewMode={viewMode}
+                liquidTemplate={liquidTemplate}
+                jsonTemplate={jsonTemplate}
+                setSelectedId={setSelectedId}
+                onDragStart={onDragStart}
+                onDrop={onDrop}
+                moveSection={moveSection}
+                removeSection={removeSection}
+              />
+            </BlockStack>
+          </div>
+          <div>
+            <InspectorCard
+              selectedSection={selectedSection}
+              updateSetting={updateSetting}
+              updateStyleOverride={updateStyleOverride}
+              applyThemeToSection={applyThemeToSection}
+              clearStyleOverrides={clearStyleOverrides}
+            />
+          </div>
+          <div>
+            <PageStructureCard
+              mode="preview"
+              sections={sections}
+              selectedSection={selectedSection}
+              selectedId={selectedId}
+              themeColors={themeColors}
+              viewMode={viewMode}
+              liquidTemplate={liquidTemplate}
+              jsonTemplate={jsonTemplate}
+              setSelectedId={setSelectedId}
+              onDragStart={onDragStart}
+              onDrop={onDrop}
+              moveSection={moveSection}
+              removeSection={removeSection}
+            />
+          </div>
+        </div>
       </Page>
     </div>
   );

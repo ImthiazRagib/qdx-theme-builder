@@ -58,10 +58,6 @@ export function InspectorCard({ selectedSection, updateSetting, updateStyleOverr
             <FieldRenderer field={field} value={selectedSection.settings[field.key]} onChange={(value) => updateSetting(selectedSection.id, field.key, value)} />
           </div>
         ))}
-        <div style={{ padding: 16, border: '1px dashed var(--p-color-border)', background: 'var(--p-color-bg-surface)', borderRadius: 8 }}>
-          <span style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--p-color-text-subdued)' }}>Rendered section call</span>
-          <pre style={{ marginTop: 12, overflow: 'auto', fontSize: 12, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{generateSectionMarkup(selectedSection)}</pre>
-        </div>
       </BlockStack>
     </Card>
   );
