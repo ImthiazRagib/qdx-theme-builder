@@ -8,8 +8,9 @@ export function ComponentLibraryCard({ addSection, mode = 'home' }) {
 
   const filterForMode = (items) => {
     if (mode === 'product') {
-      // For the product page view, only show product-detail building blocks.
-      return items.filter((item) => item.type === 'product-page');
+      // Product page view: show the full library so you can compose
+      // the product page from any blocks (hero, testimonials, etc.).
+      return items;
     }
     // Home / default view: show everything except dedicated product page sections.
     return items.filter((item) => item.type !== 'product-page');
@@ -17,13 +18,9 @@ export function ComponentLibraryCard({ addSection, mode = 'home' }) {
 
   const filtered = filterForMode(COMPONENT_LIBRARY);
 
-  // For product mode, keep a shorter list and label.
-  const title = mode === 'product' ? 'Product Page Library' : 'Component Library';
+  const title = mode === 'product' ? 'Product Page Components' : 'Component Library';
 
-  const visibleGroups =
-    mode === 'product'
-      ? ['Commerce']
-      : groups;
+  const visibleGroups = groups;
 
   return (
     <Card>
