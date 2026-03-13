@@ -6,7 +6,7 @@ import { ThemeColorsCard, ComponentLibraryCard, Toolbar, PageStructureCard, Insp
 
 export function ThemeCreatorPolaris() {
   const [themeColors, setThemeColors] = useState(DEFAULT_THEME);
-  const [sections, setSections] = useState([
+  const [homeSections, setHomeSections] = useState([
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'announcement-bar')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'header')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'hero')),
@@ -15,24 +15,22 @@ export function ThemeCreatorPolaris() {
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'newsletter')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'footer')),
   ]);
-  const [selectedId, setSelectedId] = useState(null);
+  const [productSections, setProductSections] = useState([
+    createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'product-page')),
+  ]);
+  const [homeSelectedId, setHomeSelectedId] = useState(null);
+  const [productSelectedId, setProductSelectedId] = useState(null);
   const [draggedId, setDraggedId] = useState(null);
   const [viewMode, setViewMode] = useState('preview');
   const [pageView, setPageView] = useState('home');
-
-  const filteredSections = useMemo(() => {
-    if (pageView === 'product') {
-      return sections.filter((s) => s.type === 'product-page');
-    }
-    // home view shows everything except dedicated product page sections
-    return sections.filter((s) => s.type !== 'product-page');
-  }, [sections, pageView]);
-
-  const effectiveSections = filteredSections.length > 0 ? filteredSections : sections;
+  const sections = pageView === 'product' ? productSections : homeSections;
+  const setSections = pageView === 'product' ? setProductSections : setHomeSections;
+  const selectedId = pageView === 'product' ? productSelectedId : homeSelectedId;
+  const setSelectedId = pageView === 'product' ? setProductSelectedId : setHomeSelectedId;
 
   const selectedSection = useMemo(
-    () => effectiveSections.find((s) => s.id === selectedId) || effectiveSections[0] || null,
-    [effectiveSections, selectedId],
+    () => sections.find((s) => s.id === selectedId) || sections[0] || null,
+    [sections, selectedId],
   );
 
   const addSection = (component) => {
@@ -118,7 +116,7 @@ export function ThemeCreatorPolaris() {
             viewMode={viewMode}
             setViewMode={setViewMode}
             liquidTemplate={liquidTemplate}
-            sections={effectiveSections}
+            sections={sections}
             themeColors={themeColors}
           />
         </div>
@@ -136,7 +134,7 @@ export function ThemeCreatorPolaris() {
               <ComponentLibraryCard addSection={addSection} mode={pageView === 'product' ? 'product' : 'home'} />
               <PageStructureCard
                 mode="structure"
-                sections={effectiveSections}
+                sections={sections}
                 selectedSection={selectedSection}
                 selectedId={selectedId}
                 themeColors={themeColors}
@@ -171,7 +169,7 @@ export function ThemeCreatorPolaris() {
           >
             <PageStructureCard
               mode="preview"
-              sections={effectiveSections}
+              sections={sections}
               selectedSection={selectedSection}
               selectedId={selectedId}
               themeColors={themeColors}
