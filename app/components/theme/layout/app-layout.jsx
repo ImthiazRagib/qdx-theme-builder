@@ -3,6 +3,7 @@ import { Outlet, useMatches } from "react-router";
 export default function AppLayout() {
   const matches = useMatches();
   const is404 = matches.some((m) => m.handle?.notFound === true);
+  const isWideLayout = matches.some((m) => m.handle?.wideLayout === true);
   return (
     <div
       style={{
@@ -17,7 +18,7 @@ export default function AppLayout() {
           flex: 1,
           padding: "1.5rem 1.5rem 2rem",
           marginLeft: 0,
-          maxWidth: 1200,
+          maxWidth: isWideLayout ? 1440 : 1200,
           marginRight: "auto",
           width: "100%",
           boxSizing: "border-box",

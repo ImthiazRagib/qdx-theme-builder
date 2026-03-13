@@ -89,7 +89,16 @@ export function ThemeCreatorPolaris() {
   const jsonTemplate = useMemo(() => generateJsonTemplate(sections), [sections]);
 
   return (
-    <Page title="Liquid Section Editor" subtitle="Drag sections top to bottom, edit settings, and export template-ready code.">
+    <div
+      style={{
+        margin: "-1.5rem -1.5rem 0",
+      }}
+    >
+      <Page
+        fullWidth
+        title="Liquid Section Editor"
+        subtitle="Drag sections top to bottom, edit settings, and export template-ready code."
+      >
       <div style={{ marginBottom: 16 }}>
         <Toolbar viewMode={viewMode} setViewMode={setViewMode} liquidTemplate={liquidTemplate} sections={sections} themeColors={themeColors} />
       </div>
@@ -126,6 +135,7 @@ export function ThemeCreatorPolaris() {
           />
         </Layout.Section>
       </Layout>
-    </Page>
+      </Page>
+    </div>
   );
 }

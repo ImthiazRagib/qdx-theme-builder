@@ -21,3 +21,7 @@ export default function ThemeBuilderPage() {
 export const headers = (headersArgs) => {
   return boundary.headers(headersArgs);
 };
+
+export const handle = {
+  wideLayout: true,
+};
