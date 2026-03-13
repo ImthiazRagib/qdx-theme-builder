@@ -312,7 +312,7 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
         </div>
 
         <div style={{ ...detailsFirst, display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <h1 style={{ fontSize: '1.75rem', margin: 0, fontWeight: 600, color: resolveText(TEXT_ON_LIGHT) }}>
+          <h1 style={{ fontSize: '1.75rem', margin: 0, fontWeight: 600, color: primary }}>
             {settings.title}
           </h1>
           <p style={{ fontSize: 18, fontWeight: 600, margin: 0, color: resolveText(TEXT_ON_LIGHT) }}>
@@ -339,8 +339,8 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
                   fontWeight: 600,
                   borderRadius: 999,
                   border: 'none',
-                  background: primary,
-                  color: textOnPrimary,
+                  background: secondary,
+                  color: resolveText(TEXT_ON_LIGHT),
                   cursor: 'pointer',
                 }}
               >
@@ -352,9 +352,9 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
                   fontSize: 14,
                   fontWeight: 500,
                   borderRadius: 999,
-                  border: '1px solid #e4e4e7',
+                  border: `1px solid ${secondary}`,
                   background: '#ffffff',
-                  color: resolveText(TEXT_ON_LIGHT),
+                  color: secondary,
                   cursor: 'pointer',
                 }}
               >
