@@ -94,15 +94,151 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
 
   if (type === 'featured-collection' || type === 'product-grid') {
     const count = Math.max(1, Math.min(Number(settings.productsToShow || 4), 8));
+    const columns = type === 'product-grid' ? 3 : 2;
     return (
-      <div style={{ borderBottom: '1px solid #e4e4e7', padding: 24, background: resolveBg('#ffffff') }}>
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 600, margin: 0, color: resolveText(TEXT_ON_LIGHT) }}>{settings.heading}</h3>
-        <div style={{ marginTop: 20, display: 'grid', gap: 16, gridTemplateColumns: 'repeat(4, 1fr)' }}>
+      <div
+        style={{
+          borderBottom: '1px solid #e4e4e7',
+          padding: 24,
+          background: resolveBg('#ffffff'),
+        }}
+      >
+        <h3
+          style={{
+            fontSize: '1.25rem',
+            fontWeight: 600,
+            margin: 0,
+            color: resolveText(TEXT_ON_LIGHT),
+          }}
+        >
+          {settings.heading}
+        </h3>
+        <div
+          style={{
+            marginTop: 20,
+            display: 'grid',
+            gap: 20,
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          }}
+        >
           {Array.from({ length: count }).map((_, idx) => (
-            <div key={idx} style={{ border: '1px solid #e4e4e7', padding: 12 }}>
-              <div style={{ height: 112, background: '#f4f4f5' }} />
-              <div style={{ marginTop: 12, height: 16, width: '66%', background: '#e4e4e7', borderRadius: 4 }} />
-              <div style={{ marginTop: 8, height: 12, width: '33%', background: '#f4f4f5', borderRadius: 4 }} />
+            <div
+              key={idx}
+              style={{
+                borderRadius: 18,
+                overflow: 'hidden',
+                boxShadow: '0 18px 45px rgba(15,23,42,0.18)',
+                background: '#ffffff',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div
+                style={{
+                  position: 'relative',
+                  borderRadius: 18,
+                  overflow: 'hidden',
+                  background: '#f4f4f5',
+                }}
+              >
+                <div
+                  style={{
+                    width: '100%',
+                    paddingBottom: '70%',
+                    minHeight: 180,
+                    maxHeight: 260,
+                    background: '#e5e7eb',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 12,
+                    borderRadius: 16,
+                    border: '1px solid rgba(15,23,42,0.12)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              </div>
+
+              <div
+                style={{
+                  padding: '14px 16px 16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 6,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: '#9ca3af',
+                  }}
+                >
+                  Bags
+                </span>
+                <span
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 600,
+                    color: primary,
+                  }}
+                >
+                  Premium Leather Handbag
+                </span>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 13,
+                    color: '#6b7280',
+                    marginTop: 2,
+                  }}
+                >
+                  <span style={{ color: '#facc15', fontSize: 14 }}>★</span>
+                  <span style={{ fontWeight: 500 }}>4.9</span>
+                  <span style={{ fontSize: 12, color: '#9ca3af' }}>
+                    (124 reviews)
+                  </span>
+                </div>
+                <div
+                  style={{
+                    marginTop: 10,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: 12,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 600,
+                      color: resolveText(TEXT_ON_LIGHT),
+                    }}
+                  >
+                    $449
+                  </span>
+                  <button
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: 999,
+                      border: 'none',
+                      background: '#000000',
+                      color: '#ffffff',
+                      fontSize: 12,
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                      boxShadow: '0 8px 20px rgba(15,23,42,0.35)',
+                    }}
+                  >
+                    Quick Add
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>
