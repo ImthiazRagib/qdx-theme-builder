@@ -1,0 +1,11 @@
+{
+  "name": "theme-builder-polaris",
+  "version": "1.0.0",
+  "description": "Theme builder components for Shopify Polaris apps",
+  "dependencies": {
+    "@shopify/polaris": "^13.9.5",
+    "@shopify/polaris-icons": "^9.3.1",
+    "jszip": "^3.10.1",
+    "react": "^18.0.0"
+  }
+}
