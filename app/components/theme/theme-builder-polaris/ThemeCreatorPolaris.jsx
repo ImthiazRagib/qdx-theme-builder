@@ -146,7 +146,13 @@ export function ThemeCreatorPolaris() {
               clearStyleOverrides={clearStyleOverrides}
             />
           </div>
-          <div>
+          <div
+            style={{
+              position: 'sticky',
+              top: 0,
+              alignSelf: 'flex-start',
+            }}
+          >
             <PageStructureCard
               mode="preview"
               sections={sections}
