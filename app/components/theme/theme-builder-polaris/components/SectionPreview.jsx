@@ -1,7 +1,9 @@
 import React from 'react';
+import { LogoFacebookIcon, LogoInstagramIcon, LogoXIcon } from '@shopify/polaris-icons';
 import { getContrastColor } from '../libs/methods';
 import { TestimonialSlider } from './TestimonialSlider';
 import { TEXT_ON_LIGHT, TEXT_MUTED } from '../config/constants';
+import { Icon } from '@shopify/polaris';
 
 export function SectionPreview({ section, themeColors = { primary: '#E94D4D', secondary: '#FDF8EE' } }) {
   const { type, settings, styleOverrides = {} } = section;
@@ -354,10 +356,9 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               style={{
                 width: 32,
                 height: 32,
-                borderRadius: 999,
+                borderRadius: 8,
                 border: '1px solid #e5e7eb',
-                background: '#111827',
-                color: '#ffffff',
+                color: '#111111',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -366,7 +367,11 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               }}
               aria-label="Facebook"
             >
-              f
+              <Icon
+                source={LogoFacebookIcon}
+                tone="base"
+                size="small"
+              />
             </a>
           )}
           {settings.instagramUrl && String(settings.instagramUrl).trim().length > 0 && (
@@ -375,10 +380,8 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               style={{
                 width: 32,
                 height: 32,
-                borderRadius: 999,
+                borderRadius: 8,
                 border: '1px solid #e5e7eb',
-                background: '#111827',
-                color: '#ffffff',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -387,7 +390,11 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               }}
               aria-label="Instagram"
             >
-              IG
+              <Icon
+                source={LogoInstagramIcon}
+                tone="base"
+                size="small"
+              />
             </a>
           )}
           {settings.twitterUrl && String(settings.twitterUrl).trim().length > 0 && (
@@ -396,10 +403,8 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               style={{
                 width: 32,
                 height: 32,
-                borderRadius: 999,
-                border: '1px solid #e5e7eb',
-                background: '#111827',
-                color: '#ffffff',
+                borderRadius: 8,
+                border: '1px solid #e5e7eb', color: '#111111',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -408,7 +413,11 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               }}
               aria-label="Twitter"
             >
-              X
+              <Icon
+                source={LogoXIcon}
+                tone="base"
+                size="small"
+              />
             </a>
           )}
         </div>
@@ -487,10 +496,9 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               style={{
                 width: 36,
                 height: 36,
-                borderRadius: 999,
+                borderRadius: 8,
                 border: '1px solid #e5e7eb',
-                background: '#111827',
-                color: '#ffffff',
+                color: '#111111',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -499,7 +507,11 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               }}
               aria-label="Facebook"
             >
-              f
+              <Icon
+                source={LogoFacebookIcon}
+                tone="base"
+                size="small"
+              />
             </a>
           )}
           {hasInstagram && (
@@ -508,10 +520,9 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               style={{
                 width: 36,
                 height: 36,
-                borderRadius: 999,
+                borderRadius: 8,
                 border: '1px solid #e5e7eb',
-                background: '#111827',
-                color: '#ffffff',
+                color: '#111111',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -520,7 +531,11 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               }}
               aria-label="Instagram"
             >
-              IG
+              <Icon
+                source={LogoInstagramIcon}
+                tone="base"
+                size="small"
+              />
             </a>
           )}
           {hasTwitter && (
@@ -529,10 +544,9 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               style={{
                 width: 36,
                 height: 36,
-                borderRadius: 999,
+                borderRadius: 8,
                 border: '1px solid #e5e7eb',
-                background: '#111827',
-                color: '#ffffff',
+                color: '#111111',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -541,7 +555,11 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               }}
               aria-label="Twitter"
             >
-              X
+              <Icon
+                source={LogoXIcon}
+                tone="base"
+                size="small"
+              />
             </a>
           )}
         </div>
