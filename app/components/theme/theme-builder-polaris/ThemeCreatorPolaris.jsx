@@ -16,7 +16,12 @@ export function ThemeCreatorPolaris() {
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'footer')),
   ]);
   const [productSections, setProductSections] = useState([
+    createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'announcement-bar')),
+    createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'header')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'product-page')),
+    createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'testimonial')),
+    createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'newsletter')),
+    createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'footer')),
   ]);
   const [homeSelectedId, setHomeSelectedId] = useState(null);
   const [productSelectedId, setProductSelectedId] = useState(null);
