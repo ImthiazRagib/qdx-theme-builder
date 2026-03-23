@@ -33,6 +33,15 @@ export function ThemeCreatorPolaris() {
   const selectedId = pageView === 'product' ? productSelectedId : homeSelectedId;
   const setSelectedId = pageView === 'product' ? setProductSelectedId : setHomeSelectedId;
 
+  const handlePageViewChange = (nextPage) => {
+    setPageView(nextPage);
+    if (nextPage === 'product') {
+      if (!productSelectedId && productSections[0]) setProductSelectedId(productSections[0].id);
+      return;
+    }
+    if (!homeSelectedId && homeSections[0]) setHomeSelectedId(homeSections[0].id);
+  };
+
   const selectedSection = useMemo(
     () => sections.find((s) => s.id === selectedId) || sections[0] || null,
     [sections, selectedId],
@@ -121,7 +130,8 @@ export function ThemeCreatorPolaris() {
             viewMode={viewMode}
             setViewMode={setViewMode}
             liquidTemplate={liquidTemplate}
-            sections={sections}
+            homeSections={homeSections}
+            productSections={productSections}
             themeColors={themeColors}
           />
         </div>
@@ -162,7 +172,7 @@ export function ThemeCreatorPolaris() {
               applyThemeToSection={applyThemeToSection}
               clearStyleOverrides={clearStyleOverrides}
               pageView={pageView}
-              onPageViewChange={setPageView}
+              onPageViewChange={handlePageViewChange}
             />
           </div>
           <div

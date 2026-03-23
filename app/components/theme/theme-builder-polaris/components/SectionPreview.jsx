@@ -94,7 +94,9 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
 
   if (type === 'featured-collection' || type === 'product-grid') {
     const count = Math.max(1, Math.min(Number(settings.productsToShow || 4), 8));
-    const columns = type === 'product-grid' ? 3 : 2;
+    const columns = type === 'product-grid'
+      ? Math.max(2, Math.min(Number(settings.columns || 4), 4))
+      : 2;
     return (
       <div
         style={{
@@ -125,45 +127,41 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
             <div
               key={idx}
               style={{
-                borderRadius: 18,
+                borderRadius: 14,
                 overflow: 'hidden',
-                boxShadow: '0 18px 45px rgba(15,23,42,0.18)',
+                border: '1px solid #e5e7eb',
                 background: '#ffffff',
                 display: 'flex',
                 flexDirection: 'column',
+                height: '100%',
               }}
             >
               <div
                 style={{
                   position: 'relative',
-                  borderRadius: 18,
+                  aspectRatio: '1 / 1',
                   overflow: 'hidden',
-                  background: '#f4f4f5',
+                  background: '#f8fafc',
                 }}
               >
                 <div
                   style={{
                     width: '100%',
-                    paddingBottom: '70%',
-                    minHeight: 180,
-                    maxHeight: 260,
-                    background: '#e5e7eb',
+                    height: '100%',
+                    minHeight: 170,
+                    background: '#e5e7eb radial-gradient(circle at 30% 20%, #f3f4f6, #d1d5db)',
                   }}
                 />
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 12,
-                    borderRadius: 16,
-                    border: '1px solid rgba(15,23,42,0.12)',
-                    pointerEvents: 'none',
-                  }}
-                />
+                {idx % 3 === 0 && (
+                  <span style={{ position: 'absolute', top: 10, left: 10, fontSize: 11, fontWeight: 600, background: '#111827', color: '#ffffff', borderRadius: 999, padding: '3px 9px' }}>
+                    Sale
+                  </span>
+                )}
               </div>
 
               <div
                 style={{
-                  padding: '14px 16px 16px',
+                  padding: '12px 12px 14px',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 6,
@@ -171,72 +169,38 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               >
                 <span
                   style={{
-                    fontSize: 11,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: '#9ca3af',
+                    fontSize: 12,
+                    color: '#6b7280',
                   }}
                 >
-                  Bags
+                  {type === 'featured-collection' ? 'Featured product' : 'Catalog product'}
                 </span>
                 <span
                   style={{
                     fontSize: 15,
                     fontWeight: 600,
-                    color: primary,
+                    color: resolveText(TEXT_ON_LIGHT),
                   }}
                 >
-                  Premium Leather Handbag
+                  Premium Product Name
                 </span>
                 <div
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 6,
-                    fontSize: 13,
-                    color: '#6b7280',
-                    marginTop: 2,
-                  }}
-                >
-                  <span style={{ color: '#facc15', fontSize: 14 }}>★</span>
-                  <span style={{ fontWeight: 500 }}>4.9</span>
-                  <span style={{ fontSize: 12, color: '#9ca3af' }}>
-                    (124 reviews)
-                  </span>
-                </div>
-                <div
-                  style={{
-                    marginTop: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
                     gap: 12,
                   }}
                 >
                   <span
                     style={{
-                      fontSize: 18,
-                      fontWeight: 600,
+                      fontSize: 14,
+                      fontWeight: 700,
                       color: resolveText(TEXT_ON_LIGHT),
                     }}
                   >
-                    $449
+                    $89.00
                   </span>
-                  <button
-                    style={{
-                      padding: '8px 14px',
-                      borderRadius: 999,
-                      border: 'none',
-                      background: '#000000',
-                      color: '#ffffff',
-                      fontSize: 12,
-                      fontWeight: 500,
-                      cursor: 'pointer',
-                      boxShadow: '0 8px 20px rgba(15,23,42,0.35)',
-                    }}
-                  >
-                    Quick Add
-                  </button>
+                  <s style={{ fontSize: 13, color: '#9ca3af' }}>$119.00</s>
                 </div>
               </div>
             </div>
