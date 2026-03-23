@@ -102,6 +102,9 @@ export function SectionPreview({
     const columns = type === 'product-grid'
       ? Math.max(2, Math.min(Number(settings.columns || 4), 4))
       : 2;
+    const selectedProductMainImage = previewProduct?.imageUrl
+      || (Array.isArray(previewProduct?.images) ? previewProduct.images[0] : null)
+      || '';
     return (
       <div
         style={{
@@ -125,7 +128,8 @@ export function SectionPreview({
             marginTop: 20,
             display: 'grid',
             gap: 20,
-            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+            gridTemplateColumns: previewProduct ? '1fr' : `repeat(${columns}, minmax(0, 1fr))`,
+            justifyItems: previewProduct ? 'center' : 'stretch',
           }}
         >
           {Array.from({ length: count }).map((_, idx) => (
@@ -133,20 +137,23 @@ export function SectionPreview({
               key={idx}
               onClick={previewProduct ? onProductCardClick : undefined}
               style={{
-                borderRadius: 14,
+                borderRadius: previewProduct ? 0 : 14,
                 overflow: 'hidden',
-                border: '1px solid #e5e7eb',
+                border: previewProduct ? 'none' : '1px solid #e5e7eb',
                 background: '#ffffff',
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
+                display: 'grid',
+                gridTemplateColumns: previewProduct ? 'minmax(220px, 320px) minmax(280px, 1fr)' : '1fr',
+                alignItems: previewProduct ? 'stretch' : 'normal',
+                width: previewProduct ? '100%' : 'auto',
+                maxWidth: previewProduct ? 960 : 'none',
+                minWidth: previewProduct ? 'min(100%, 680px)' : 'auto',
                 cursor: previewProduct ? 'pointer' : 'default',
               }}
             >
               <div
                 style={{
                   position: 'relative',
-                  aspectRatio: '1 / 1',
+                  aspectRatio: previewProduct ? '4 / 5' : '1 / 1',
                   overflow: 'hidden',
                   background: '#f8fafc',
                 }}
@@ -156,7 +163,9 @@ export function SectionPreview({
                     width: '100%',
                     height: '100%',
                     minHeight: 170,
-                    background: '#e5e7eb radial-gradient(circle at 30% 20%, #f3f4f6, #d1d5db)',
+                    background: selectedProductMainImage
+                      ? `url(${selectedProductMainImage}) center/cover`
+                      : '#e5e7eb radial-gradient(circle at 30% 20%, #f3f4f6, #d1d5db)',
                   }}
                 />
                 {idx % 3 === 0 && (
@@ -168,10 +177,11 @@ export function SectionPreview({
 
               <div
                 style={{
-                  padding: '12px 12px 14px',
+                  padding: previewProduct ? '16px 18px' : '12px 12px 14px',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 6,
+                  justifyContent: previewProduct ? 'center' : 'flex-start',
                 }}
               >
                 <span
