@@ -53,16 +53,6 @@ export const COMPONENT_LIBRARY = [
     },
   },
   {
-    type: 'featured-collection',
-    label: 'Featured Collection',
-    category: 'Commerce',
-    defaults: {
-      heading: 'Featured collection',
-      collectionHandle: 'frontpage',
-      productsToShow: 4,
-    },
-  },
-  {
     type: 'product-grid',
     label: 'Product Grid',
     category: 'Commerce',
@@ -166,11 +156,6 @@ export const fieldConfigByType = {
     { key: 'heading', label: 'Heading', type: 'text' },
     { key: 'body', label: 'Body', type: 'textarea' },
     { key: 'imageUrl', label: 'Image URL', type: 'text' },
-  ],
-  'featured-collection': [
-    { key: 'heading', label: 'Heading', type: 'text' },
-    { key: 'collectionHandle', label: 'Collection Handle', type: 'text' },
-    { key: 'productsToShow', label: 'Products To Show', type: 'number' },
   ],
   'product-grid': [
     { key: 'heading', label: 'Heading', type: 'text' },

@@ -4,7 +4,7 @@ import { ViewIcon, CodeIcon, ClipboardIcon, ExportIcon, PackageIcon } from '@sho
 import { copyText, downloadFile } from '../../libs/methods';
 import { exportThemeAsZip } from '../../themeExport';
 
-export function Toolbar({ viewMode, setViewMode, liquidTemplate, homeSections, productSections, themeColors }) {
+export function Toolbar({ viewMode, setViewMode, liquidTemplate, homeSections, productSections, themeColors, selectedProduct }) {
   return (
     <InlineStack gap="200" wrap>
       <Button variant={viewMode === 'preview' ? 'primary' : 'tertiary'} icon={ViewIcon} onClick={() => setViewMode('preview')} accessibilityLabel="Preview" />
@@ -14,7 +14,7 @@ export function Toolbar({ viewMode, setViewMode, liquidTemplate, homeSections, p
       <Button
         variant="primary"
         icon={PackageIcon}
-        onClick={() => exportThemeAsZip({ homeSections, productSections, themeColors })}
+        onClick={() => exportThemeAsZip({ homeSections, productSections, themeColors, selectedProduct })}
         accessibilityLabel="Export ZIP"
       />
     </InlineStack>

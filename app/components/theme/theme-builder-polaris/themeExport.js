@@ -85,6 +85,20 @@ const SECTION_SCHEMAS = {
       { type: 'color', id: 'text_color', label: 'Text Color', default: '#171717' },
     ],
   },
+  'product-page': {
+    name: 'Product Page',
+    settings: [
+      { type: 'select', id: 'layout', label: 'Layout', default: 'gallery-left', options: [
+        { value: 'gallery-left', label: 'Gallery Left' },
+        { value: 'gallery-right', label: 'Gallery Right' },
+        { value: 'gallery-stacked', label: 'Gallery Stacked' },
+      ]},
+      { type: 'checkbox', id: 'showThumbnails', label: 'Show thumbnails', default: true },
+      { type: 'checkbox', id: 'showBuyButtons', label: 'Show buy buttons', default: true },
+      { type: 'color', id: 'background', label: 'Background', default: '#ffffff' },
+      { type: 'color', id: 'text_color', label: 'Text Color', default: '#171717' },
+    ],
+  },
   testimonial: {
     name: 'Testimonials',
     settings: [
@@ -113,6 +127,18 @@ const SECTION_SCHEMAS = {
       { type: 'textarea', id: 'links', label: 'Footer Links (comma separated)', default: 'Privacy Policy, Terms of Service, Contact' },
       { type: 'color', id: 'background', label: 'Background', default: '#ffffff' },
       { type: 'color', id: 'text_color', label: 'Text Color', default: '#525252' },
+    ],
+  },
+  'social-links': {
+    name: 'Social Links',
+    settings: [
+      { type: 'text', id: 'heading', label: 'Heading', default: 'Follow us' },
+      { type: 'textarea', id: 'body', label: 'Body', default: 'Stay connected on social media.' },
+      { type: 'url', id: 'facebookUrl', label: 'Facebook URL', default: '' },
+      { type: 'url', id: 'instagramUrl', label: 'Instagram URL', default: '' },
+      { type: 'url', id: 'twitterUrl', label: 'Twitter URL', default: '' },
+      { type: 'color', id: 'background', label: 'Background', default: '#ffffff' },
+      { type: 'color', id: 'text_color', label: 'Text Color', default: '#171717' },
     ],
   },
 };
@@ -226,6 +252,31 @@ function generateSectionLiquid(type) {
     </div>
   </div>
 </section>`,
+    'product-page': `<section class="product-page product-page--{{ section.settings.layout | default: 'gallery-left' }}" {% if section.settings.background != blank %}style="background: {{ section.settings.background }};"{% endif %}>
+  <div class="page-width">
+    <div class="product-page__grid" {% if section.settings.text_color != blank %}style="color: {{ section.settings.text_color }};"{% endif %}>
+      <div class="product-page__media">
+        {% if product.featured_image %}
+          <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="1200" height="1200" loading="eager">
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+        {% endif %}
+      </div>
+      <div class="product-page__content">
+        <h1 class="product-page__title">{{ product.title }}</h1>
+        <p class="product-page__price">{{ product.price | money }}</p>
+        <div class="product-page__description">{{ product.description }}</div>
+        {% if section.settings.showBuyButtons %}
+          <div class="product-page__actions">
+            {% form 'product', product %}
+              <button type="submit" class="button product-page__add">Add to cart</button>
+            {% endform %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>`,
     testimonial: `<section class="testimonial testimonial-slider" {% if section.settings.background != blank %}style="background: {{ section.settings.background }};"{% endif %} id="testimonial-{{ section.id | replace: '-', '_' }}">
   <div class="page-width testimonial-slider__inner" {% if section.settings.text_color != blank %}style="color: {{ section.settings.text_color }};"{% endif %}>
     <p class="testimonial__label">{{ section.settings.heading }}</p>
@@ -318,6 +369,17 @@ function generateSectionLiquid(type) {
     </div>
   </div>
 </footer>`,
+    'social-links': `<section class="social-links" {% if section.settings.background != blank %}style="background: {{ section.settings.background }};"{% endif %}>
+  <div class="page-width" {% if section.settings.text_color != blank %}style="color: {{ section.settings.text_color }};"{% endif %}>
+    <h2 class="section-heading">{{ section.settings.heading }}</h2>
+    <p style="margin: 0; opacity: 0.9;">{{ section.settings.body }}</p>
+    <div style="display:flex; gap: 12px; margin-top: 14px; flex-wrap: wrap;">
+      {% if section.settings.facebookUrl != blank %}<a href="{{ section.settings.facebookUrl }}">Facebook</a>{% endif %}
+      {% if section.settings.instagramUrl != blank %}<a href="{{ section.settings.instagramUrl }}">Instagram</a>{% endif %}
+      {% if section.settings.twitterUrl != blank %}<a href="{{ section.settings.twitterUrl }}">Twitter</a>{% endif %}
+    </div>
+  </div>
+</section>`,
   };
 
   const content = templates[type] || `<section class="section-${type}"><div class="page-width">Section: ${type}</div></section>`;
@@ -496,7 +558,7 @@ const SNIPPET_PRODUCT_CARD_PLACEHOLDER = `<article class="product-card product-c
   </div>
 </article>`;
 
-const SECTION_TYPES = ['announcement-bar', 'header', 'hero', 'rich-text', 'image-with-text', 'featured-collection', 'product-grid', 'testimonial', 'newsletter', 'footer'];
+const SECTION_TYPES = ['announcement-bar', 'header', 'hero', 'rich-text', 'image-with-text', 'featured-collection', 'product-grid', 'product-page', 'testimonial', 'newsletter', 'footer', 'social-links'];
 
 const TEXT_ON_LIGHT = '#171717';
 const TEXT_MUTED = '#525252';
@@ -549,7 +611,7 @@ function getEffectiveColors(section, themeColors = {}) {
   return { background, text };
 }
 
-export async function exportThemeAsZip({ homeSections = [], productSections = [], themeColors = {} }) {
+export async function exportThemeAsZip({ homeSections = [], productSections = [], themeColors = {}, selectedProduct = null }) {
   const zip = new JSZip();
 
   zip.file('layout/theme.liquid', LAYOUT_THEME);
@@ -576,6 +638,15 @@ export async function exportThemeAsZip({ homeSections = [], productSections = []
       const { background, text } = getEffectiveColors(section, themeColors);
       const sectionId = `${section.type.replace(/[^a-z0-9]/gi, '_')}_${index + 1}`;
       const settings = { ...section.settings, background, text_color: text };
+      if (section.type === 'product-page' && selectedProduct) {
+        const stripHtml = (html) => String(html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        settings.title = selectedProduct.title || settings.title;
+        settings.price = selectedProduct.price || settings.price;
+        settings.description = stripHtml(selectedProduct.descriptionHtml) || settings.description;
+        if (Array.isArray(selectedProduct.images) && selectedProduct.images.length > 0) {
+          settings.images = selectedProduct.images;
+        }
+      }
       if (section.type === 'announcement-bar') {
         settings.color = text;
         delete settings.text_color;

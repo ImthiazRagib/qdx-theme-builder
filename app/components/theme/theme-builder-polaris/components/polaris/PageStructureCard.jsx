@@ -9,6 +9,8 @@ export function PageStructureCard({
   selectedSection,
   selectedId,
   themeColors,
+  previewProduct,
+  onProductCardClick,
   viewMode,
   liquidTemplate,
   jsonTemplate,
@@ -105,7 +107,15 @@ export function PageStructureCard({
                     Add components from the left panel to start building your page.
                   </div>
                 ) : (
-                  sections.map((section) => <SectionPreview key={section.id} section={section} themeColors={themeColors} />)
+                  sections.map((section) => (
+                    <SectionPreview
+                      key={section.id}
+                      section={section}
+                      themeColors={themeColors}
+                      previewProduct={previewProduct}
+                      onProductCardClick={onProductCardClick}
+                    />
+                  ))
                 )}
               </div>
             ) : (

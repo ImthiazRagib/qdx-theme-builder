@@ -1,16 +1,18 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Page, BlockStack } from '@shopify/polaris';
 import { createInstance, generateSectionMarkup, generateJsonTemplate, getContrastColor } from './libs/methods';
 import { COMPONENT_LIBRARY, DEFAULT_THEME, TEXT_ON_LIGHT } from './config/constants';
 import { ThemeColorsCard, ComponentLibraryCard, Toolbar, PageStructureCard, InspectorCard } from './components/polaris';
+import { useThemeBuilder } from '../../../context/theme.context';
 
 export function ThemeCreatorPolaris() {
+  const { previewProduct } = useThemeBuilder();
   const [themeColors, setThemeColors] = useState(DEFAULT_THEME);
   const [homeSections, setHomeSections] = useState([
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'announcement-bar')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'header')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'hero')),
-    createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'featured-collection')),
+    createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'product-grid')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'testimonial')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'newsletter')),
     createInstance(COMPONENT_LIBRARY.find((x) => x.type === 'footer')),
@@ -83,6 +85,21 @@ export function ThemeCreatorPolaris() {
     setSections((prev) => prev.map((s) => (s.id === id ? { ...s, styleOverrides: {} } : s)));
   };
 
+  const openProductDetailsFromCard = () => {
+    const existingProductPage = productSections.find((section) => section.type === 'product-page');
+    if (existingProductPage) {
+      setPageView('product');
+      setProductSelectedId(existingProductPage.id);
+      return;
+    }
+    const productPageComponent = COMPONENT_LIBRARY.find((component) => component.type === 'product-page');
+    if (!productPageComponent) return;
+    const next = createInstance(productPageComponent);
+    setProductSections((prev) => [next, ...prev]);
+    setPageView('product');
+    setProductSelectedId(next.id);
+  };
+
   const moveSection = (id, direction) => {
     setSections((prev) => {
       const index = prev.findIndex((item) => item.id === id);
@@ -114,6 +131,29 @@ export function ThemeCreatorPolaris() {
   const liquidTemplate = useMemo(() => sections.map((s) => generateSectionMarkup(s)).join('\n\n'), [sections]);
   const jsonTemplate = useMemo(() => generateJsonTemplate(sections), [sections]);
 
+  useEffect(() => {
+    if (!previewProduct) return;
+    const stripHtml = (html) => String(html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    const applySelectedProduct = (list) =>
+      list.map((section) => {
+        if (section.type !== 'product-page') return section;
+        return {
+          ...section,
+          settings: {
+            ...section.settings,
+            title: previewProduct.title || section.settings.title,
+            price: previewProduct.price || section.settings.price,
+            description: stripHtml(previewProduct.descriptionHtml) || section.settings.description,
+            images: Array.isArray(previewProduct.images) && previewProduct.images.length > 0
+              ? previewProduct.images
+              : section.settings.images,
+          },
+        };
+      });
+    setHomeSections((prev) => applySelectedProduct(prev));
+    setProductSections((prev) => applySelectedProduct(prev));
+  }, [previewProduct]);
+
   return (
     <div
       style={{
@@ -133,6 +173,7 @@ export function ThemeCreatorPolaris() {
             homeSections={homeSections}
             productSections={productSections}
             themeColors={themeColors}
+            selectedProduct={previewProduct}
           />
         </div>
         <div
@@ -153,6 +194,8 @@ export function ThemeCreatorPolaris() {
                 selectedSection={selectedSection}
                 selectedId={selectedId}
                 themeColors={themeColors}
+                previewProduct={previewProduct}
+                onProductCardClick={openProductDetailsFromCard}
                 viewMode={viewMode}
                 liquidTemplate={liquidTemplate}
                 jsonTemplate={jsonTemplate}
@@ -188,6 +231,8 @@ export function ThemeCreatorPolaris() {
               selectedSection={selectedSection}
               selectedId={selectedId}
               themeColors={themeColors}
+              previewProduct={previewProduct}
+              onProductCardClick={openProductDetailsFromCard}
               viewMode={viewMode}
               liquidTemplate={liquidTemplate}
               jsonTemplate={jsonTemplate}

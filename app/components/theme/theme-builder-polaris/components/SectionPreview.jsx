@@ -5,7 +5,12 @@ import { TestimonialSlider } from './TestimonialSlider';
 import { TEXT_ON_LIGHT, TEXT_MUTED } from '../config/constants';
 import { Icon } from '@shopify/polaris';
 
-export function SectionPreview({ section, themeColors = { primary: '#E94D4D', secondary: '#FDF8EE' } }) {
+export function SectionPreview({
+  section,
+  themeColors = { primary: '#E94D4D', secondary: '#FDF8EE' },
+  previewProduct = null,
+  onProductCardClick,
+}) {
   const { type, settings, styleOverrides = {} } = section;
   const primary = themeColors.primary || '#E94D4D';
   const secondary = themeColors.secondary || '#FDF8EE';
@@ -93,7 +98,7 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
   }
 
   if (type === 'featured-collection' || type === 'product-grid') {
-    const count = Math.max(1, Math.min(Number(settings.productsToShow || 4), 8));
+    const count = previewProduct ? 1 : Math.max(1, Math.min(Number(settings.productsToShow || 4), 8));
     const columns = type === 'product-grid'
       ? Math.max(2, Math.min(Number(settings.columns || 4), 4))
       : 2;
@@ -126,6 +131,7 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
           {Array.from({ length: count }).map((_, idx) => (
             <div
               key={idx}
+              onClick={previewProduct ? onProductCardClick : undefined}
               style={{
                 borderRadius: 14,
                 overflow: 'hidden',
@@ -134,6 +140,7 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
+                cursor: previewProduct ? 'pointer' : 'default',
               }}
             >
               <div
@@ -182,7 +189,7 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
                     color: resolveText(TEXT_ON_LIGHT),
                   }}
                 >
-                  Premium Product Name
+                  {previewProduct?.title || 'Premium Product Name'}
                 </span>
                 <div
                   style={{
@@ -198,10 +205,15 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
                       color: resolveText(TEXT_ON_LIGHT),
                     }}
                   >
-                    $89.00
+                    {previewProduct?.price || '$89.00'}
                   </span>
                   <s style={{ fontSize: 13, color: '#9ca3af' }}>$119.00</s>
                 </div>
+                {previewProduct && (
+                  <span style={{ fontSize: 12, color: '#6b7280' }}>
+                    Click card to view product details
+                  </span>
+                )}
               </div>
             </div>
           ))}
@@ -212,7 +224,10 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
 
   if (type === 'product-page') {
     const layout = settings.layout || 'gallery-left';
-    const images = Array.isArray(settings.images) ? settings.images.filter(Boolean) : [];
+    const importedImages = Array.isArray(previewProduct?.images) ? previewProduct.images.filter(Boolean) : [];
+    const images = importedImages.length > 0
+      ? importedImages
+      : (Array.isArray(settings.images) ? settings.images.filter(Boolean) : []);
     const primaryImage = images[0] || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200&auto=format&fit=crop';
     const thumbs = images.slice(1);
     const showThumbnails = settings.showThumbnails !== false && thumbs.length > 0;
@@ -277,10 +292,10 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
 
         <div style={{ ...detailsFirst, display: 'flex', flexDirection: 'column', gap: 16 }}>
           <h1 style={{ fontSize: '1.75rem', margin: 0, fontWeight: 600, color: primary }}>
-            {settings.title}
+            {previewProduct?.title || settings.title}
           </h1>
           <p style={{ fontSize: 18, fontWeight: 600, margin: 0, color: resolveText(TEXT_ON_LIGHT) }}>
-            {settings.price}
+            {previewProduct?.price || settings.price}
           </p>
           <p
             style={{
@@ -291,7 +306,9 @@ export function SectionPreview({ section, themeColors = { primary: '#E94D4D', se
               maxWidth: 520,
             }}
           >
-            {settings.description}
+            {previewProduct?.descriptionHtml
+              ? String(previewProduct.descriptionHtml).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+              : settings.description}
           </p>
 
           {showBuyButtons && (

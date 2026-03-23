@@ -7,13 +7,14 @@ export function ComponentLibraryCard({ addSection, mode = 'home' }) {
   const groups = ['Header', 'Content', 'Commerce', 'Social Proof', 'Marketing', 'Footer'];
 
   const filterForMode = (items) => {
+    const withoutFeaturedCollection = items.filter((item) => item.type !== 'featured-collection');
     if (mode === 'product') {
       // Product page view: show the full library so you can compose
       // the product page from any blocks (hero, testimonials, etc.).
-      return items;
+      return withoutFeaturedCollection;
     }
     // Home / default view: show everything except dedicated product page sections.
-    return items.filter((item) => item.type !== 'product-page');
+    return withoutFeaturedCollection.filter((item) => item.type !== 'product-page');
   };
 
   const filtered = filterForMode(COMPONENT_LIBRARY);
